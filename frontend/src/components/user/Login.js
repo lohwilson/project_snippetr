@@ -37,16 +37,20 @@ export class Login extends Component {
       password: this.state.password
     };
 
-    console.log(user);
-    axios.post('http://localhost:4000/users/login', user)
-     .then(res => console.log(res.data));
-    auth.login(() => {
-      if(!this.props.location.state){
-        this.props.history.push('/dashboard')
-      } else {
-        this.props.history.push(this.props.location.state.from.pathname)
-      }
-    })
+    try {
+      axios.post('http://localhost:4000/users/login', user)
+      .then(res => console.log(res.data));
+     auth.login(() => {
+       if(!this.props.location.state){
+         this.props.history.push('/dashboard')
+       } else {
+         this.props.history.push(this.props.location.state.from.pathname)
+       }
+     })
+    } catch {
+      console.log('incorrect login credentials');
+    }
+
   };
 
   render() {

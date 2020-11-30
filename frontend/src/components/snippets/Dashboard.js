@@ -3,11 +3,7 @@ import CreateSnippets from './CreateSnippets'
 import ListAllSnippets from './ListAllSnippets'
 import Search from './Search';
 import Profile from '../user/Profile';
-import styled from 'styled-components';
 
-const Div = styled.div`
-
-`;
 
 export class Dashboard extends Component {
   constructor(props){

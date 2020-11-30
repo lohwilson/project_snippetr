@@ -13,7 +13,6 @@ export class Navbar extends Component {
   render() {
     const isLoggedIn = auth.isAuthenticated()
     console.log(isLoggedIn);
-    const showUser = isLoggedIn ? <h1>logged in</h1>: <h2>not logged in</h2>
     return (
       <React.Fragment>
       <Nav className="navbar navbar-dark bg-dark navbar-expand-lg">
@@ -43,8 +42,6 @@ export class Navbar extends Component {
             <Link to="/dashboard" className="nav-link">Dashboard</Link>
             </h4>
           </div>
-          {/* <button onClick={()=> auth.isAuthenticated()}>Click Me</button>
-          {showUser} */}
         </div>
       </Nav>
       </React.Fragment>
