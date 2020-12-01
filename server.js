@@ -17,7 +17,9 @@ const mongoURI = process.env.MONGODB_ATLAS_URI || 'mongodb://localhost:27017/sni
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
   () => console.log('MongoDB connection established:', mongoURI)
 );
+
 const connection = mongoose.connection;
+
 connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })

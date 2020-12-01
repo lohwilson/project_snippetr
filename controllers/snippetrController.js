@@ -25,9 +25,10 @@ module.exports = {
   },
 
   createSnippet(req, res) {
-    console.log(req.body);
+    console.log(req.body.image);
+    console.log('create new snippet @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', req.body);
     const newSnippet = new Snippetr(req.body)
-    console.log(newSnippet);
+    console.log('new snippet $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', newSnippet);
     newSnippet.save()
     .then(() => res.json('Snippet added!'))
     .catch(err => res.status(400).json('Error: ' + err));

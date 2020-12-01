@@ -16,7 +16,6 @@ const snippetrSchema = new Schema({
   image: {
     type: String,
     required: true,
-    trim: true,
   },
 },
 {

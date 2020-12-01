@@ -35,18 +35,20 @@ module.exports = {
     try {
       const { username, email, password } = req.body;
 
-      if (!username || !email || !password)
+      if (!username || !email || !password){
         return res
           .status(400)
-          .json({ msg: "Not all fields have been entered." });
-      if (password.length < 6)
-        return res
-          .status(400)
-          .json({ msg: "The password need to be at least 6 characters long." });
-      if (password !== passwordCheck)
-        return res.status(400).json({ msg: "Enter the same password." });
+          .json({ msg: "Please enter all fields." });
+      }
 
-      const existingUser = await User.findOne({ usernam: username });
+      // if (password.length < 6)
+      //   return res
+      //     .status(400)
+      //     .json({ msg: "The password need to be at least 6 characters long." });
+      // if (password !== passwordCheck)
+      //   return res.status(400).json({ msg: "Enter the same password." });
+
+      const existingUser = await User.findOne({ username: username });
       if (existingUser)
         return res
           .status(400)

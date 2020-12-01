@@ -7,8 +7,7 @@ export class CreateSnippets extends Component {
     this.state = {
       title: "",
       story: "",
-      image: "",
-      previewSource: "",
+      image: ""
     };
   }
 
@@ -20,9 +19,28 @@ export class CreateSnippets extends Component {
     this.setState({ [event.target.id]: event.target.value });
   };
 
-  createNewSnippet = (event) => {
+  handleImageChange = (event) => {
+    this.setState({ image: event.target.files[0] })
+  }
+
+  createNewSnippet = async (event) => {
     event.preventDefault();
-    console.log("clicked");
+
+    const data = new FormData();
+    data.append("file", this.state.image);
+    data.append("upload_preset", "snippetr");
+    data.append("cloud_name", "drfrooljx");
+
+    const response = await fetch("https://api.cloudinary.com/v1_1/drfrooljx/image/upload", {
+      method: "post",
+      body: data,
+    })
+    const result = await response.json();
+    await this.setState({
+      image: result.url
+    })
+    console.log(result);
+
 
     const snippet = {
       title: this.state.title,
@@ -30,8 +48,7 @@ export class CreateSnippets extends Component {
       image: this.state.image,
     };
 
-    console.log(snippet.image);
-    // this.previewFile(snippet.image)
+    console.log(snippet);
 
     axios
       .post("http://localhost:4000/snippetr/create", snippet)
@@ -46,14 +63,25 @@ export class CreateSnippets extends Component {
     console.log("snippet created");
   };
 
-  previewFile = (file) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      this.setState({
-        previewSource: reader.result,
+  postDetails = () => {
+    const data = new FormData();
+    data.append("file", this.state.image);
+    data.append("upload_preset", "snippetr");
+    data.append("cloud_name", "drfrooljx");
+    fetch("https://api.cloudinary.com/v1_1/drfrooljx/image/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          image: data.image
+        })
+        console.log(data.image);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    };
   };
 
   render() {
@@ -83,8 +111,7 @@ export class CreateSnippets extends Component {
             <input
               type="file"
               id="image"
-              value={this.state.image}
-              onChange={this.handleChange}
+              onChange={this.handleImageChange}
             />
           </div>
           <div className="form-group">
@@ -95,16 +122,6 @@ export class CreateSnippets extends Component {
             />
           </div>
         </form>
-
-        <div>
-          {this.state.previewSource && (
-            <img
-              src={this.state.previewSource}
-              alt="img"
-              style={{ height: "300px", width: "300px" }}
-            />
-          )}
-        </div>
       </div>
     );
   }
