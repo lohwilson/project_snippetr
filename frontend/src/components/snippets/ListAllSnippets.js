@@ -26,7 +26,7 @@ export class ListAllSnippets extends Component {
       snippets.map(snippet => {
         return (
           <div>
-            <Link to={{ pathname:'/snippet/' + snippet._id, snippet: snippet }} >
+            <Link to={{ pathname:'/snippet/' + snippet._id, snippet: snippet, key: snippet._id}} >
               <span>{snippet.title}</span>
             </Link>
             <p>{snippet.story}</p>
