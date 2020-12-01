@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import auth from './auth';
+import auth from "./auth";
+import { AuthContext } from "./AuthProvider";
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
@@ -27,3 +28,19 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+// export class ProtectedRoute extends Component {
+//   static contextType = AuthContext;
+//   render() {
+//     console.log(this.props.component);
+//     const Component = this.props.component;
+//     const isAuthenticated = this.context.isAuthenticated;
+//     console.log(isAuthenticated);
+//     return isAuthenticated ? (
+//       <Component />
+//     ) : (
+//       <Redirect to={{ pathname: "/login", state: { from: this.props.location } }} />
+//     );
+//   }
+// }
+
+// export default ProtectedRoute;

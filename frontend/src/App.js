@@ -6,7 +6,6 @@ import AuthProvider from "./components/auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Content from "./components/Content";
-import UserProvider from "./components/UserContext";
 
 const Div = styled.div`
   background-image: url(https://i.pinimg.com/originals/4d/55/61/4d5561a98fe7d21e8cbbdf5d87675050.jpg);
