@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
+
 
 require('dotenv').config();
 
@@ -25,6 +27,17 @@ const snippetrRouter = require('./routes/snippetr');
 
 app.use('/users', usersRouter);
 app.use('/snippetr', snippetrRouter);
+
+// Serve static assets if in production
+if(process.env.NODE_ENV === 'production'){
+  //Set static folder
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  });
+}
+
 
 app.listen(port, () => {
   console.log('server is running on port: ', port);
