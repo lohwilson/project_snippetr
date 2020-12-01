@@ -26,11 +26,11 @@ export class ListAllSnippets extends Component {
       snippets.map(snippet => {
         return (
           <div>
-            <Link to={{ pathname:'/snippet/' + snippet._id, snippet: snippet}} >
-            {/* <Link to={'/snippet/' + snippet._id}> */}
+            <Link to={{ pathname:'/snippet/' + snippet._id, snippet: snippet }} >
               <span>{snippet.title}</span>
             </Link>
             <p>{snippet.story}</p>
+            <img src={snippet.image} alt="userImage"/>
           </div>
         )
       })

@@ -61,27 +61,8 @@ export class CreateSnippets extends Component {
         });
       });
     console.log("snippet created");
-  };
+    // this.props.history.push('/dashboard')
 
-  postDetails = () => {
-    const data = new FormData();
-    data.append("file", this.state.image);
-    data.append("upload_preset", "snippetr");
-    data.append("cloud_name", "drfrooljx");
-    fetch("https://api.cloudinary.com/v1_1/drfrooljx/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          image: data.image
-        })
-        console.log(data.image);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   render() {

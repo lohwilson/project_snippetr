@@ -1,11 +1,5 @@
 todos
 
-- check mongo atlas connection
-- deploy to heroku
-
-- set up cloudinary for images
-- check upload images with multer
-
 - use context for authenticated user
 - display username / email on navbar / home page
 - create own user profile page with edit feature
