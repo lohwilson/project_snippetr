@@ -1,6 +1,5 @@
 todos
 
-- add heroku url to github
 - change css to material UI
 - add jwt to user
 - 
