@@ -5,7 +5,7 @@ import auth from "../components/auth/auth";
 import { AuthContext } from "./auth/AuthProvider";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
-import ToolBar from "@material-ui/core/ToolBar";
+import ToolBar from "@material-ui/core/Toolbar"
 
 
 const Nav = styled.nav`
