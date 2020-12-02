@@ -11,10 +11,6 @@ const Div = styled.div`
   height: 800px;
 `;
 
-const H1 = styled.h1`
-  text-shadow: 4px 4px black;
-`;
-
 const box = [
   {
     text: "discover a new world",
@@ -51,7 +47,7 @@ export class MainPage extends Component {
   render() {
     return (
       <div style={{textAlign:'center'}}>
-        <H1>Welcome to Snippetr</H1>
+        <h1>Welcome to Snippetr</h1>
         <Div>
           {this.state.box.map((box, index) => (
             <Image someText={box.text} image={box.image} key={index} />

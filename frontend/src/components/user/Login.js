@@ -3,6 +3,7 @@ import axios from "axios";
 import auth from "../auth/auth";
 import styled from "styled-components";
 import { AuthContext } from "../auth/AuthProvider";
+import TextField from "@material-ui/core/TextField";
 
 const Div = styled.div`
   height: 65vh;
@@ -63,6 +64,26 @@ export class Login extends Component {
     return (
       <Div className="container">
         <h3>Log In</h3>
+        <form noValidate autoComplete="off">
+          <TextField
+            id="standard-secondary"
+            label="Standard secondary"
+            color="secondary"
+          />
+          <TextField
+            id="filled-secondary"
+            label="Filled secondary"
+            variant="filled"
+            color="secondary"
+          />
+          <TextField
+            id="outlined-secondary"
+            label="Outlined secondary"
+            variant="outlined"
+            color="secondary"
+          />
+        </form>
+
         <form onSubmit={this.onLogin}>
           <div className="form-group">
             <label htmlFor="username">Username: </label>
