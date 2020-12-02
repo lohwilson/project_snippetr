@@ -1,6 +1,10 @@
 todos
 
-- use context for authenticated user
+- add heroku url to github
+- change css to material UI
+- add jwt to user
+- 
+
 - display username / email on navbar / home page
 - create own user profile page with edit feature
 
