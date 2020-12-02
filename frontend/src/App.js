@@ -12,6 +12,7 @@ const Div = styled.div`
   z-index: 1;
   margin: auto;
   height: 100%;
+  margin-top: 80px
 `;
 
 export class App extends Component {
@@ -30,7 +31,7 @@ export class App extends Component {
           <Div>
             <AuthProvider>
               <Navbar />
-              <Content currentUser={this.state.currentUser} />
+              <Content currentUser={this.state.currentUser} style={{marginTop: "40px"}}/>
               <Footer />
             </AuthProvider>
           </Div>
