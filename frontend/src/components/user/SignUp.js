@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import axios from "axios";
 import styled from 'styled-components';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+
 
 const Div = styled.div`
   height: 65vh
@@ -58,51 +62,55 @@ export class SignUp extends Component {
     return (
       <Div className="container">
         <h3>Create Account</h3>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} autoComplete="off">
           <div className="form-group">
-            <label htmlFor="username">Username: </label>
-            <input type="text"
+            <TextField
+              label="Username" 
+              type="text"
               required
-              className="form-control col-6"
               value={this.state.username}
               id="username"
               onChange={this.onChange}
-              autoComplete="off"
               minLength="5"
-            />
-            <label htmlFor="email">Email: </label>
-            <input type="text"
+            /><br />
+            <TextField
+              label="Email" 
+              type="text"
               required
-              className="form-control col-6"
               value={this.state.email}
               id="email"
               onChange={this.onChange}
-              autoComplete="off"
               minLength="5"
-            />
-            <label htmlFor="password">Password: </label>
-            <input type="password"
+            /><br />
+            <TextField
+              label="Password" 
+              type="password"
               required
-              className="form-control col-6"
               value={this.state.password}
               id="password"
               onChange={this.onChange}
-              autoComplete="off"
               minLength="5"
-            />
-            <label htmlFor="confirmPassword">Confirm Password: </label>
-            <input type="password"
+            /><br />
+            <TextField
+              label="Confirm Password" 
+              type="password"
               required
-              className="form-control col-6"
               value={this.state.confirmPassword}
               id="confirmPassword"
               onChange={this.onChange}
-              autoComplete="off"
               minLength="5"
             />
           </div>
-          <div className="form-group">
-            <input type="submit" value="Create Account" className="btn btn-primary" />
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              endIcon={<Icon>send</Icon>}
+              style={{ margin: "10px" }}
+            >
+              Sign Up
+            </Button>
           </div>
         </form>
       </Div>

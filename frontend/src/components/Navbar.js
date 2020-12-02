@@ -3,12 +3,22 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import auth from "../components/auth/auth";
 import { AuthContext } from "./auth/AuthProvider";
+import Button from "@material-ui/core/Button";
+import AppBar from "@material-ui/core/AppBar";
+import ToolBar from "@material-ui/core/ToolBar";
+
 
 const Nav = styled.nav`
-  position: sticky;
-  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  top: 10;
   z-index: 1;
 `;
+
+const styledLink = {
+  color: "white",
+  textDecoration: "none"
+}
 
 export class Navbar extends Component {
   static contextType = AuthContext;
@@ -17,57 +27,42 @@ export class Navbar extends Component {
     const isLoggedIn = auth.isAuthenticated();
     console.log(isLoggedIn);
     return (
-      <Nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/dashboard" className="navbar-brand">
-          <h3>Snippetr</h3>
-        </Link>
-        {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button> */}
-        {/* <div className="collapse navbar-collapse" id="navbarNav"> */}
-        <div>
-          <div className="navbar-nav">
-            <h4 className="navbar-item">
-              <Link to="/" className="nav-link">
-                Home
-              </Link>
-            </h4>
-            <h4 className="navbar-item">
-              <Link to="/about" className="nav-link">
-                About
-              </Link>
-            </h4>
-            <h4 className="navbar-item">
-              <Link to="/ourteam" className="nav-link">
-                Our Team
-              </Link>
-            </h4>
-            <h4 className="navbar-item">
-              <Link to="/login" className="nav-link">
-                Log In
-              </Link>
-            </h4>
-            <h4 className="navbar-item">
-              <Link to="/signup" className="nav-link">
-                Sign Up
-              </Link>
-            </h4>
-            <h4 className="navbar-item">
-              <Link to="/dashboard" className="nav-link">
-                Dashboard
-              </Link>
-            </h4>
-            {this.context.username ? (
-              <h3>{this.context.username}</h3>
-            ) : (
-              <React.Fragment>
-                <li>Login</li>
-                <li>Logout</li>
-              </React.Fragment>
-            )}
-          </div>
-        </div>
-      </Nav>
+      <React.Fragment>
+        <AppBar color="secondary">
+          <ToolBar >
+              <Button>
+                <Link to="/" style={styledLink}>Snippetr</Link>
+              </Button>
+              <Button>
+                <Link to="/about" style={styledLink}>About</Link>
+              </Button>
+              <Button>
+                <Link to="/ourteam" style={styledLink}>Our Team</Link>
+              </Button>
+
+              {this.context.username ? (
+                <React.Fragment>
+                  <Button>
+                    <Link to="/dashboard" style={styledLink}>Dashboard</Link>
+                  </Button>
+                  <Button>
+                    <Link to="/dashboard" style={styledLink}>Logout</Link>
+                  </Button>
+                  <h3>Welcome, {this.context.username}!</h3>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Button>
+                    <Link to="/login" style={styledLink}>Login</Link>
+                  </Button>
+                  <Button>
+                    <Link to="/signup" style={styledLink}>Sign Up</Link>
+                  </Button>
+                </React.Fragment>
+              )}
+          </ToolBar>
+        </AppBar>
+      </React.Fragment>
     );
   }
 }

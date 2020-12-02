@@ -3,6 +3,9 @@ import axios from "axios";
 import auth from "../auth/auth";
 import styled from "styled-components";
 import { AuthContext } from "../auth/AuthProvider";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
 
 const Div = styled.div`
   height: 65vh;
@@ -63,40 +66,45 @@ export class Login extends Component {
     return (
       <Div className="container">
         <h3>Log In</h3>
-        <form onSubmit={this.onLogin}>
-          <div className="form-group">
-            <label htmlFor="username">Username: </label>
-            <input
+        <form onSubmit={this.onLogin} noValidate autoComplete="off">
+          <div>
+            <TextField
+              label="Username"
               type="text"
               required
-              className="form-control col-6"
               value={this.state.username}
               id="username"
               onChange={this.onChange}
-              autoComplete="off"
-            />{" "}
-            <h5>Or </h5> <label htmlFor="email">Email: </label>
-            <input
+            />
+            <h5>Or </h5>
+            <TextField
+              label="Email"
               type="text"
-              className="form-control col-6"
               value={this.state.email}
               id="email"
               onChange={this.onChange}
-              autoComplete="off"
             />
-            <label htmlFor="password">Password: </label>
-            <input
+            <br />
+            <TextField
+              label="Password"
               type="password"
               required
-              className="form-control col-6"
               value={this.state.password}
               id="password"
               onChange={this.onChange}
-              autoComplete="off"
             />
+            <br />
           </div>
-          <div className="form-group">
-            <input type="submit" value="Log In" className="btn btn-primary" />
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              endIcon={<Icon>send</Icon>}
+              style={{ margin: "10px" }}
+            >
+              Login
+            </Button>
           </div>
         </form>
         {errorMessage}

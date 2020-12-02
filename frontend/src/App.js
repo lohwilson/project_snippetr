@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import AuthProvider from "./components/auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Content from "./components/Content";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
 
 const Div = styled.div`
-  background-image: url(https://i.pinimg.com/originals/4d/55/61/4d5561a98fe7d21e8cbbdf5d87675050.jpg);
-  background-size: cover;
   z-index: 1;
   margin: auto;
-  color: white;
   height: 100%;
-  width: 100%;
+  margin-top: 80px
 `;
 
 export class App extends Component {
@@ -28,13 +26,16 @@ export class App extends Component {
   render() {
     return (
       <Router>
-        <Div>
-          <AuthProvider>
-            <Navbar />
-            <Content currentUser={this.state.currentUser} />
-            <Footer />
-          </AuthProvider>
-        </Div>
+        <CssBaseline />
+        <Container maxWidth="lg">
+          <Div>
+            <AuthProvider>
+              <Navbar />
+              <Content currentUser={this.state.currentUser} style={{marginTop: "40px"}}/>
+              <Footer />
+            </AuthProvider>
+          </Div>
+        </Container>
       </Router>
     );
   }
