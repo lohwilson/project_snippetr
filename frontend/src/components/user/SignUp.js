@@ -54,9 +54,6 @@ export class SignUp extends Component {
       password: "",
       confirmPassword: ""
     })
-
-
-
   };
 
   render() {
