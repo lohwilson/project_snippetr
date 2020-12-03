@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+import Alert from '@material-ui/lab/Alert';
 
 
 const Div = styled.div`
@@ -62,6 +63,7 @@ export class SignUp extends Component {
     return (
       <Div className="container">
         <h3>Create Account</h3>
+        {/* {error.message && (<Alert severity="error">{error.message}</Alert>)} */}
         <form onSubmit={this.onSubmit} autoComplete="off">
           <div className="form-group">
             <TextField
