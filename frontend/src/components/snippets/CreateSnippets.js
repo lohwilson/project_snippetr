@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Icon from "@material-ui/core/Icon";
+import Fab from '@material-ui/core/Fab';
 
 export class CreateSnippets extends Component {
   constructor(props) {
@@ -7,7 +12,7 @@ export class CreateSnippets extends Component {
     this.state = {
       title: "",
       story: "",
-      image: ""
+      image: "",
     };
   }
 
@@ -20,8 +25,8 @@ export class CreateSnippets extends Component {
   };
 
   handleImageChange = (event) => {
-    this.setState({ image: event.target.files[0] })
-  }
+    this.setState({ image: event.target.files[0] });
+  };
 
   createNewSnippet = async (event) => {
     event.preventDefault();
@@ -31,16 +36,18 @@ export class CreateSnippets extends Component {
     data.append("upload_preset", "snippetr");
     data.append("cloud_name", "drfrooljx");
 
-    const response = await fetch("https://api.cloudinary.com/v1_1/drfrooljx/image/upload", {
-      method: "post",
-      body: data,
-    })
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/drfrooljx/image/upload",
+      {
+        method: "post",
+        body: data,
+      }
+    );
     const result = await response.json();
     await this.setState({
-      image: result.url
-    })
+      image: result.url,
+    });
     console.log(result);
-
 
     const snippet = {
       title: this.state.title,
@@ -62,16 +69,15 @@ export class CreateSnippets extends Component {
       });
     console.log("snippet created");
     // this.props.history.push('/dashboard')
-
   };
 
   render() {
     return (
       <div>
         <form onSubmit={this.createNewSnippet}>
-          <div className="form-group">
-            <label htmlFor="title">Title: </label>
-            <input
+          <div>
+            <TextField
+              label="title"
               type="text"
               id="title"
               value={this.state.title}
@@ -81,7 +87,9 @@ export class CreateSnippets extends Component {
             />
             <label htmlFor="story">
               Story:
-              <textarea
+              <TextareaAutosize
+                rowsMin={5}
+                aria-label="minimum height"
                 id="story"
                 value={this.state.story}
                 onChange={this.handleChange}
@@ -89,18 +97,48 @@ export class CreateSnippets extends Component {
             </label>
             <br />
             <label htmlFor="image">Image: </label>
-            <input
-              type="file"
-              id="image"
-              onChange={this.handleImageChange}
-            />
+            <input type="file" id="image" onChange={this.handleImageChange} />
+            <label htmlFor="upload-photo">
+              <input
+                style={{ display: "none" }}
+                id="upload-photo"
+                name="upload-photo"
+                type="file"
+              />
+
+              <Fab
+                color="secondary"
+                size="small"
+                component="span"
+                aria-label="add"
+                variant="extended"
+              >
+                <AddIcon /> Upload photo
+              </Fab>
+              <br />
+              <br />
+
+              <Fab
+                color="primary"
+                size="small"
+                component="span"
+                aria-label="add"
+              >
+                <AddIcon />
+              </Fab>
+            </label>
+            ;
           </div>
-          <div className="form-group">
-            <input
+          <div>
+            <Button
               type="submit"
-              value="Create New Snippet"
-              className="btn btn-primary"
-            />
+              variant="contained"
+              color="primary"
+              endIcon={<Icon>send</Icon>}
+              style={{ margin: "10px" }}
+            >
+              Create Snippet
+            </Button>
           </div>
         </form>
       </div>
