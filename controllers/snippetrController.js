@@ -37,4 +37,10 @@ module.exports = {
     .then(snippet => res.json(snippet))
     .catch(err => res.status(400).json('Error: ' + err))
   },
+
+  updateLikes(req, res) {
+    Snippetr.findByIdAndUpdate(req.body._id, {
+      $push:{likes: req.user.username}
+    })
+  }
 }

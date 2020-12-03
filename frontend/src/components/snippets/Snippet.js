@@ -6,17 +6,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { AuthContext } from "../auth/AuthProvider";
 import Icon from "@material-ui/core/Icon";
-
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Favorite from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 export class Snippets extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      story: "",
-      image: "",
-      username: "",
-      likes: 0,
-      editing: false,
+      snippet: [],
     };
   }
   static contextType = AuthContext;
@@ -27,14 +25,10 @@ export class Snippets extends Component {
     axios.get("http://localhost:4000/snippetr/" + id).then((res) => {
       console.log(res.data);
       this.setState({
-        title: res.data.title,
-        story: res.data.story,
-        image: res.data.image,
-        username: res.data.username,
-        likes: res.data.likes,
+        snippet: res.data,
       });
     });
-    console.log('@@@@@@@@@@@@@@', this.state);
+    console.log("@@@@@@@@@@@@@@", this.state);
   }
 
   handleDelete = async () => {
@@ -65,25 +59,32 @@ export class Snippets extends Component {
     console.log("updating snippet");
   };
 
+  toggleLikes = () => {
+    console.log();
+  };
+
   render() {
     console.log(this.state);
-    const { title, story, image, username, likes } = this.state;
+    const { title, story, image, username, likes } = this.state.snippet;
     return (
-      <div className="container">
-        {/* <div>
-          <h1>{title}</h1>
-          <h3>{story}</h3>
-          <h4>{user}</h4>
-          <img src={image} alt="userImage" />
-        </div> */}
-
+      <div>
         {!this.state.editing ? (
           <React.Fragment>
             <h1>{title}</h1>
             <h3>{story}</h3>
             <img src={image} alt="userImage" />
             <br />
-            {likes}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  icon={<FavoriteBorder />}
+                  checkedIcon={<Favorite />}
+                  name="likes"
+                  onChange={() => this.toggleLikes()}
+                />
+              }
+            />
+            {likes} likes
             <br />
             {username === this.context.username && (
               <React.Fragment>
@@ -152,8 +153,6 @@ export class Snippets extends Component {
             </Button>
           </React.Fragment>
         )}
-
-
         <Link to="/dashboard" className="nav-link">
           Back
         </Link>
