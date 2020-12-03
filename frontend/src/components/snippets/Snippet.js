@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { AuthContext } from "./auth/AuthProvider";
+import { AuthContext } from "../auth/AuthProvider";
+import Icon from "@material-ui/core/Icon";
 
 export class Snippets extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ export class Snippets extends Component {
       title: "",
       story: "",
       image: "",
-      user: "",
+      username: "",
+      likes: 0,
       editing: false,
     };
   }
@@ -25,9 +27,14 @@ export class Snippets extends Component {
     axios.get("http://localhost:4000/snippetr/" + id).then((res) => {
       console.log(res.data);
       this.setState({
-        snippet: res.data,
+        title: res.data.title,
+        story: res.data.story,
+        image: res.data.image,
+        username: res.data.username,
+        likes: res.data.likes,
       });
     });
+    console.log('@@@@@@@@@@@@@@', this.state);
   }
 
   handleDelete = async () => {
@@ -53,28 +60,32 @@ export class Snippets extends Component {
     this.setState({ image: event.target.files[0] });
   };
 
-  handleUpdate = () => {
+  handleUpdate = (event) => {
+    event.preventDefault();
     console.log("updating snippet");
   };
 
   render() {
-    const { title, story, image, user } = this.state;
-    const { username } = this.context;
+    console.log(this.state);
+    const { title, story, image, username, likes } = this.state;
     return (
       <div className="container">
-        <div>
+        {/* <div>
           <h1>{title}</h1>
           <h3>{story}</h3>
           <h4>{user}</h4>
           <img src={image} alt="userImage" />
-        </div>
+        </div> */}
 
         {!this.state.editing ? (
           <React.Fragment>
             <h1>{title}</h1>
             <h3>{story}</h3>
             <img src={image} alt="userImage" />
-            {user === username && (
+            <br />
+            {likes}
+            <br />
+            {username === this.context.username && (
               <React.Fragment>
                 <Button
                   onClick={this.handleDelete}
@@ -142,8 +153,6 @@ export class Snippets extends Component {
           </React.Fragment>
         )}
 
-        <button onClick={this.handleDelete}>Delete</button>
-        <button onClick={this.handleEdit}>Edit</button>
 
         <Link to="/dashboard" className="nav-link">
           Back

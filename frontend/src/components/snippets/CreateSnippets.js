@@ -4,7 +4,7 @@ import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import Fab from '@material-ui/core/Fab';
+import { AuthContext } from "../auth/AuthProvider";
 
 export class CreateSnippets extends Component {
   constructor(props) {
@@ -13,8 +13,10 @@ export class CreateSnippets extends Component {
       title: "",
       story: "",
       image: "",
+      username: "",
     };
   }
+  static contextType = AuthContext;
 
   componentDidMount() {
     console.log("create snippet component mounted");
@@ -31,6 +33,7 @@ export class CreateSnippets extends Component {
   createNewSnippet = async (event) => {
     event.preventDefault();
 
+    console.log(this.context);
     const data = new FormData();
     data.append("file", this.state.image);
     data.append("upload_preset", "snippetr");
@@ -53,6 +56,8 @@ export class CreateSnippets extends Component {
       title: this.state.title,
       story: this.state.story,
       image: this.state.image,
+      username: this.context.username,
+      likes: 0,
     };
 
     console.log(snippet);
@@ -98,36 +103,6 @@ export class CreateSnippets extends Component {
             <br />
             <label htmlFor="image">Image: </label>
             <input type="file" id="image" onChange={this.handleImageChange} />
-            <label htmlFor="upload-photo">
-              <input
-                style={{ display: "none" }}
-                id="upload-photo"
-                name="upload-photo"
-                type="file"
-              />
-
-              <Fab
-                color="secondary"
-                size="small"
-                component="span"
-                aria-label="add"
-                variant="extended"
-              >
-                <AddIcon /> Upload photo
-              </Fab>
-              <br />
-              <br />
-
-              <Fab
-                color="primary"
-                size="small"
-                component="span"
-                aria-label="add"
-              >
-                <AddIcon />
-              </Fab>
-            </label>
-            ;
           </div>
           <div>
             <Button

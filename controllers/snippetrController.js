@@ -25,8 +25,6 @@ module.exports = {
   },
 
   createSnippet(req, res) {
-    console.log(req.body.image);
-    console.log('create new snippet @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', req.body);
     const newSnippet = new Snippetr(req.body)
     console.log('new snippet $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', newSnippet);
     newSnippet.save()

@@ -17,6 +17,14 @@ const snippetrSchema = new Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
+  likes: {
+    type: Number,
+    required: true
+  }
 },
 {
   timestamps: true

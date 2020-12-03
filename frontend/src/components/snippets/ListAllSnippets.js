@@ -24,6 +24,14 @@ export class ListAllSnippets extends Component {
     });
   }
 
+  toggleLikes = (id) => {
+    console.log('toggling likes', id);
+    console.log(this.state.snippets);
+    const snippet = this.state.snippets.find(snippet => snippet._id === id)
+    console.log(snippet);
+    this.setState({})
+  }
+
   render() {
     const { snippets } = this.state;
     const allSnippets = snippets.length ? (
@@ -41,16 +49,18 @@ export class ListAllSnippets extends Component {
             </Link>
             <p>{snippet.story}</p>
             <img src={snippet.image} alt="userImage" />
+            <br />
             <FormControlLabel
               control={
                 <Checkbox
                   icon={<FavoriteBorder />}
                   checkedIcon={<Favorite />}
-                  name="checkedH"
+                  name="likes"
+                  onChange={() => this.toggleLikes(snippet._id)}
                 />
               }
-              label="Custom icon"
-            />
+              label={snippet.likes}
+            >{snippet.likes} likes</FormControlLabel>
           </div>
         );
       })
