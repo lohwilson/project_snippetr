@@ -49,6 +49,17 @@ module.exports = {
       });
   },
 
+  mySnippets(req, res) {
+    Snippetr.find({ postedBy: req.user._id })
+    .populate("postedBy", "_id username")
+    .then(mySnippets => {
+      res.json({mySnippets})
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  },
+
   listOneSnippet(req, res) {
     Snippetr.findById(req.params.id)
       .then((snippet) => res.json(snippet))

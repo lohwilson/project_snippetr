@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-// import Alert from '@material-ui/lab/Alert';
-
+import Alert from '@material-ui/lab/Alert';
 
 const Div = styled.div`
   height: 65vh
@@ -18,7 +17,9 @@ export class SignUp extends Component {
       username: "",
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      error: "",
+      success: ""
     };
   }
 
@@ -32,72 +33,100 @@ export class SignUp extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
+    const { username, email, password, confirmPassword} = this.state;
+    
+    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+      this.setState({
+        error: "Invalid email address"
+      })
+      return
+    }
 
-    if(this.state.password !== this.state.confirmPassword){
-      console.log('password do not match');
+    if(password !== confirmPassword){
+      this.setState({
+        error: "Passwords do not match"
+      })
       return
     }
 
     const user = {
-      username: this.state.username,
-      email: this.state.email,
-      password: this.state.password
+      username,
+      email,
+      password
     };
-    console.log(user);
 
-    axios.post('http://localhost:4000/users/signup', user)
-      .then(res => console.log(res.data));
+    // axios.post('http://localhost:4000/users/signup', user)
+    //   .then(res => console.log(res.data))
+    //   .then(data => {
+    //     console.log(data);
+    // })
 
-    this.setState({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: ""
-    })
+    fetch("http://localhost:4000/users/signup",{
+      method:"post",
+      headers:{
+          "Content-Type":"application/json"
+      },
+        body:JSON.stringify({
+            username,
+            password,
+            email
+        })
+      }).then(res=>res.json())
+      .then(data=>{
+          console.log(data)
+          if(data.error){
+            console.log(data.error);
+            this.setState({error: data.error})
+            return
+          } else {
+            this.setState({
+              username: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+              error: "",
+              success: "Successfully created"
+            })
+            console.log(this.props);
+          }
+      })
   };
 
   render() {
     return (
       <Div className="container">
         <h3>Create Account</h3>
-        {/* {error.message && (<Alert severity="error">{error.message}</Alert>)} */}
+        {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
+        {this.state.success && (<Alert severity="success">{this.state.success}</Alert>)}
         <form onSubmit={this.onSubmit} autoComplete="off">
           <div className="form-group">
             <TextField
               label="Username" 
               type="text"
-              required
               value={this.state.username}
               id="username"
               onChange={this.onChange}
-              minLength="5"
             /><br />
             <TextField
               label="Email" 
               type="text"
-              required
               value={this.state.email}
               id="email"
               onChange={this.onChange}
-              minLength="5"
             /><br />
             <TextField
               label="Password" 
               type="password"
-              required
               value={this.state.password}
               id="password"
               onChange={this.onChange}
-              minLength="5"
             /><br />
             <TextField
               label="Confirm Password" 
               type="password"
-              required
               value={this.state.confirmPassword}
               id="confirmPassword"
               onChange={this.onChange}
-              minLength="5"
             />
           </div>
           <div>

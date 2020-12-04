@@ -10,20 +10,20 @@ module.exports = {
       const { username, email, password } = req.body;
 
       if (!username || !email || !password) {
-        return res.status(400).json({ msg: "Please enter all fields." });
+        return res.status(400).json({ error: "Please enter all fields." });
       }
 
       const existingUser = await User.findOne({ username: username });
       if (existingUser)
         return res
           .status(400)
-          .json({ msg: "Account with this username already exists." });
+          .json({ error: "Account with this username already exists." });
 
       const existingEmail = await User.findOne({ email: email });
       if (existingEmail)
         return res
           .status(400)
-          .json({ msg: "Account with this email already exists." });
+          .json({ error: "Account with this email already exists." });
 
       const salt = await bcrypt.genSalt();
       const passwordHash = await bcrypt.hash(password, salt);
@@ -35,6 +35,7 @@ module.exports = {
       });
       const savedUser = await newUser.save();
       res.json(savedUser);
+      
     } catch (err) {
       res.status(500).json(err);
     }
