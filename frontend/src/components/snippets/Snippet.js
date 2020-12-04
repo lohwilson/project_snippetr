@@ -47,16 +47,23 @@ export class Snippets extends Component {
   };
 
   handleChange = (event) => {
+    console.log(event.target);
     this.setState({ [event.target.id]: event.target.value });
-  };
-
-  handleImageChange = (event) => {
-    this.setState({ image: event.target.files[0] });
   };
 
   handleUpdate = (event) => {
     event.preventDefault();
     console.log("updating snippet");
+
+    const {title, story} = this.state.snippet;
+
+    const snippet = {
+      title,
+      story
+    }
+
+    console.log(snippet);
+
   };
 
   toggleLikes = () => {

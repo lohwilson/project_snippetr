@@ -66,9 +66,32 @@ module.exports = {
       .catch((err) => res.status(400).json("Error: " + err));
   },
 
-  updateLikes(req, res) {
-    Snippetr.findByIdAndUpdate(req.body._id, {
-      $push: { likes: req.user.username },
-    });
+  likeSnippet(req, res) {
+    console.log(req.body);
+    Snippetr.findByIdAndUpdate(req.body.id, {
+      $push: { likes: req.user._id }
+    },{
+      new: true
+    }).exec((err, result) => {
+      if(err){
+        return res.status(422).json({ error:err })
+      } else {
+        res.json(result)
+      }
+    })
+  },
+
+  unlikeSnippet(req, res) {
+    Snippetr.findByIdAndUpdate(req.body.id, {
+      $pull: { likes: req.user._id }
+    },{
+      new: true
+    }).exec((err, result) => {
+      if(err){
+        return res.status(422).json({ error:err })
+      } else {
+        res.json(result)
+      }
+    })
   },
 };

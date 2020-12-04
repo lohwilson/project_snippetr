@@ -5,6 +5,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import { AuthContext } from "../auth/AuthProvider";
+
 
 export class ListAllSnippets extends Component {
   constructor(props) {
@@ -13,6 +15,8 @@ export class ListAllSnippets extends Component {
       snippets: [],
     };
   }
+  static contextType = AuthContext;
+
   componentDidMount() {
     console.log("dashboard mounted");
     axios.get("http://localhost:4000/snippetr").then((res) => {
@@ -23,12 +27,45 @@ export class ListAllSnippets extends Component {
     });
   }
 
+  likeSnippet = (id) => {
+    console.log(id);
+    fetch("http://localhost:4000/snippetr/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({ id }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        console.log(this.state.snippets);
+        const newSnippet = this.state.snippets.map(snippet=>{
+          if(snippet.id === result.id){
+            return result
+          } else {
+            return snippet
+          }
+        })
+        this.setState(newSnippet);
+        console.log(this.state.snippets);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  checkedLike = () => {
+    console.log(this.context.id);
+    return true
+  }
+
   toggleLikes = (snippet, index) => {
     console.log("toggling likes", index);
     console.log(("snippet", snippet));
-    snippet.likes++
+    snippet.likes++;
     console.log(snippet);
-
   };
 
   render() {
@@ -52,13 +89,14 @@ export class ListAllSnippets extends Component {
             <FormControlLabel
               control={
                 <Checkbox
+                  checked={this.checkedLike()}
                   icon={<FavoriteBorder />}
                   checkedIcon={<Favorite />}
                   name="likes"
-                  onChange={() => this.toggleLikes(snippet, index)}
+                  onChange={() => this.likeSnippet(snippet._id)}
                 />
               }
-              label={snippet.likes}
+              label={snippet.likes.length}
             />
           </div>
         );
