@@ -27,8 +27,8 @@ export class Snippets extends Component {
       this.setState({
         snippet: res.data,
       });
+      console.log(this.state);
     });
-    console.log("@@@@@@@@@@@@@@", this.state);
   }
 
   handleDelete = async () => {
@@ -64,8 +64,9 @@ export class Snippets extends Component {
   };
 
   render() {
-    console.log(this.state);
-    const { title, story, image, username, likes } = this.state.snippet;
+    const { title, story, image, postedBy, likes } = this.state.snippet;
+    console.log(this.context);
+    console.log(this.state.snippet.postedBy);
     return (
       <div>
         {!this.state.editing ? (
@@ -86,7 +87,7 @@ export class Snippets extends Component {
             />
             {likes} likes
             <br />
-            {username === this.context.username && (
+            {postedBy === this.context.id && (
               <React.Fragment>
                 <Button
                   onClick={this.handleDelete}
@@ -116,7 +117,6 @@ export class Snippets extends Component {
                   value={title}
                   onChange={this.handleChange}
                   autoComplete="off"
-                  className="form-control col-6"
                 />
                 <label htmlFor="story">
                   Story:
@@ -129,12 +129,7 @@ export class Snippets extends Component {
                   />
                 </label>
                 <br />
-                <label htmlFor="image">Image: </label>
-                <input
-                  type="file"
-                  id="image"
-                  onChange={this.handleImageChange}
-                />
+                <img src={image} alt="userImage" />
               </div>
               <div>
                 <Button

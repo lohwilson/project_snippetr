@@ -16,7 +16,6 @@ export class AuthProvider extends Component {
     this.setState({
       username: user.username,
       id: user.id,
-      // email: user.email,
       isAuthenticated: true
     })
   }
