@@ -26,13 +26,14 @@ module.exports = (req, res, next) => {
   
   const token = authorization.replace("Bearer ", "");
   jwt.verify(token, JWT_SECRET, (err, payload) => {
-    if(err) return res.status(401).json({ error: 'You must be logged in.2'})
-
-
-    const { _id } = payload;
-     User.findById(_id).then(userdata => {
+    if(err){
+      return res.status(401).json({ error: 'You must be logged in.2'})
+    } 
+    const { id } = payload;
+     User.findById(id)
+     .select("-password").select("-createdAt").select("-updatedAt")
+     .then(userdata => {
       req.user = userdata
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',req.user)
       next()
     })
   })

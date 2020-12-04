@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const { ObjectId } = mongoose.Schema.Types
 const Schema = mongoose.Schema;
 
 const snippetrSchema = new Schema({
@@ -17,9 +17,10 @@ const snippetrSchema = new Schema({
     type: String,
     required: true,
   },
-  username: {
-    type: String,
+  postedBy: {
+    type: ObjectId,
     required: true,
+    ref: "User"
   },
   likes: [
     {
