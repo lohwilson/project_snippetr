@@ -1,13 +1,21 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import styled from 'styled-components';
+import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 
 const Div = styled.div`
-  height: 65vh
+  margin: 75px 0px;
+  text-align: center;
+`;
+
+const AlertDiv = styled.div`
+  margin: auto;
+  width: 50%;
+  padding: 20px
 `;
 
 export class SignUp extends Component {
@@ -19,12 +27,12 @@ export class SignUp extends Component {
       password: "",
       confirmPassword: "",
       error: "",
-      success: ""
+      success: "",
     };
   }
 
-  componentDidMount(){
-    console.log('sign up');
+  componentDidMount() {
+    console.log("sign up");
   }
 
   onChange = (event) => {
@@ -33,27 +41,38 @@ export class SignUp extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { username, email, password, confirmPassword} = this.state;
-    
-    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
+    const { username, email, password, confirmPassword } = this.state;
+
+    if(!username){
       this.setState({
-        error: "Invalid email address"
-      })
-      return
+        error: "Please enter your username!"
+      });
+      return;
     }
 
-    if(password !== confirmPassword){
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+      )
+    ) {
       this.setState({
-        error: "Passwords do not match"
-      })
-      return
+        error: "Invalid email address!",
+      });
+      return;
     }
 
-    const user = {
-      username,
-      email,
-      password
-    };
+    if (password !== confirmPassword) {
+      this.setState({
+        error: "Passwords do not match!",
+      });
+      return;
+    }
+
+    // const user = {
+    //   username,
+    //   email,
+    //   password,
+    // };
 
     // axios.post('http://localhost:4000/users/signup', user)
     //   .then(res => console.log(res.data))
@@ -61,72 +80,92 @@ export class SignUp extends Component {
     //     console.log(data);
     // })
 
-    fetch("http://localhost:4000/users/signup",{
-      method:"post",
-      headers:{
-          "Content-Type":"application/json"
+    fetch("http://localhost:4000/users/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
       },
-        body:JSON.stringify({
-            username,
-            password,
-            email
-        })
-      }).then(res=>res.json())
-      .then(data=>{
-          if(data.error){
-            this.setState({error: data.error})
-            return
-          } else {
-            this.setState({
-              username: "",
-              email: "",
-              password: "",
-              confirmPassword: "",
-              error: "",
-              success: "Successfully created"
-            })
-            console.log(this.props);
-          }
-      }).catch(err => {
-        console.log(err);
+      body: JSON.stringify({
+        username,
+        password,
+        email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          this.setState({ error: data.error });
+          return;
+        } else {
+          this.setState({
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            error: "",
+            success: "Successfully created your account!",
+          });
+          console.log(this.props);
+        }
       })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   render() {
     return (
       <Div className="container">
-        <h3>Create Account</h3>
-        {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
-        {this.state.success && (<Alert severity="success">{this.state.success}</Alert>)}
+        <h1>Create Account</h1>
+        <AlertDiv>
+          {this.state.error && (
+            <Alert severity="error">{this.state.error}</Alert>
+          )}
+          {this.state.success && (
+            <Alert severity="success">{this.state.success}</Alert>
+          )}
+        </AlertDiv>
+
         <form onSubmit={this.onSubmit} autoComplete="off">
-          <div className="form-group">
+          <div>
             <TextField
-              label="Username" 
+              variant="outlined"
+              label="Username"
               type="text"
               value={this.state.username}
               id="username"
               onChange={this.onChange}
-            /><br />
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
+            />
+            <br />
             <TextField
-              label="Email" 
+              variant="outlined"
+              label="Email"
               type="text"
               value={this.state.email}
               id="email"
               onChange={this.onChange}
-            /><br />
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
+            />
+            <br />
             <TextField
-              label="Password" 
+              variant="outlined"
+              label="Password"
               type="password"
               value={this.state.password}
               id="password"
               onChange={this.onChange}
-            /><br />
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
+            />
+            <br />
             <TextField
-              label="Confirm Password" 
+              variant="outlined"
+              label="Confirm Password"
               type="password"
               value={this.state.confirmPassword}
               id="confirmPassword"
               onChange={this.onChange}
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
             />
           </div>
           <div>
@@ -140,10 +179,13 @@ export class SignUp extends Component {
               Sign Up
             </Button>
           </div>
+          <div>
+            <Link to="/login">Already have an account? Login here!</Link>
+          </div>
         </form>
       </Div>
-    )
+    );
   }
 }
 
-export default SignUp
+export default SignUp;

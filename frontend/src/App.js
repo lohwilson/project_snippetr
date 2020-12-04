@@ -5,6 +5,7 @@ import AuthProvider from "./components/auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Content from "./components/Content";
+import StickyFooter from "./components/StickyFooter";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 
@@ -12,7 +13,6 @@ const Div = styled.div`
   z-index: 1;
   margin: auto;
   height: 100%;
-  margin-top: 80px
 `;
 
 export class App extends Component {
@@ -32,7 +32,7 @@ export class App extends Component {
             <AuthProvider>
               <Navbar />
               <Content currentUser={this.state.currentUser} style={{marginTop: "40px"}}/>
-              <Footer />
+              <StickyFooter />
             </AuthProvider>
           </Div>
         </Container>

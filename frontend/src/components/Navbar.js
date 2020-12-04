@@ -5,20 +5,26 @@ import auth from "../components/auth/auth";
 import { AuthContext } from "./auth/AuthProvider";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
-import ToolBar from "@material-ui/core/Toolbar"
+import ToolBar from "@material-ui/core/Toolbar";
 
-
-const Nav = styled.nav`
-  display: flex;
-  flex-wrap: wrap;
-  top: 10;
-  z-index: 1;
+const LeftDiv = styled.div`
+  width: 35%;
 `;
+
+const RightDiv = styled.div`
+`;
+
+const styledTitleLink = {
+  color: "white",
+  textDecoration: "none",
+  fontFamily: "Grand Hotel, cursive",
+  fontSize: "30px",
+};
 
 const styledLink = {
   color: "white",
-  textDecoration: "none"
-}
+  textDecoration: "none",
+};
 
 export class Navbar extends Component {
   static contextType = AuthContext;
@@ -28,38 +34,57 @@ export class Navbar extends Component {
     console.log(isLoggedIn);
     return (
       <React.Fragment>
-        <AppBar color="secondary">
-          <ToolBar >
+        <AppBar color="primary">
+          <ToolBar>
+            
+            <LeftDiv>
+              <div>
+                <Link to="/" style={styledTitleLink}>
+                  Snippetr
+                </Link>
+              </div>
+            </LeftDiv>
+
+            <RightDiv>
               <Button>
-                <Link to="/" style={styledLink}>Snippetr</Link>
+                <Link to="/about" style={styledLink}>
+                  About
+                </Link>
               </Button>
               <Button>
-                <Link to="/about" style={styledLink}>About</Link>
-              </Button>
-              <Button>
-                <Link to="/ourteam" style={styledLink}>Our Team</Link>
+                <Link to="/ourteam" style={styledLink}>
+                  Our Team
+                </Link>
               </Button>
 
               {this.context.username ? (
                 <React.Fragment>
                   <Button>
-                    <Link to="/dashboard" style={styledLink}>Dashboard</Link>
+                    <Link to="/dashboard" style={styledLink}>
+                      Dashboard
+                    </Link>
                   </Button>
-                  <Button onClick={()=> this.context.logOut()}>
-                    <Link to="/" style={styledLink}>Logout</Link>
+                  <Button onClick={() => this.context.logOut()}>
+                    <Link to="/" style={styledLink}>
+                      Logout
+                    </Link>
                   </Button>
-                  <h3>Welcome, {this.context.username}!</h3>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <Button>
-                    <Link to="/login" style={styledLink}>Login</Link>
+                    <Link to="/login" style={styledLink}>
+                      Login
+                    </Link>
                   </Button>
                   <Button>
-                    <Link to="/signup" style={styledLink}>Sign Up</Link>
+                    <Link to="/signup" style={styledLink}>
+                      Sign Up
+                    </Link>
                   </Button>
                 </React.Fragment>
               )}
+            </RightDiv>
           </ToolBar>
         </AppBar>
       </React.Fragment>

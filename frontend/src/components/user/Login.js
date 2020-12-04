@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import auth from "../auth/auth";
 import styled from "styled-components";
@@ -9,7 +10,14 @@ import Icon from "@material-ui/core/Icon";
 import Alert from '@material-ui/lab/Alert';
 
 const Div = styled.div`
-  height: 65vh;
+  text-align: center;
+  margin: 75px 0px;
+`;
+
+const AlertDiv = styled.div`
+  margin: auto;
+  width: 50%;
+  padding: 20px
 `;
 
 export class Login extends Component {
@@ -36,12 +44,21 @@ export class Login extends Component {
 
   onLogin = async (event) => {
     event.preventDefault();
+    const { username, password } = this.state;
 
-    const user = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    // this.context.logIn(this.state.username);
+    if(!username){
+      this.setState({
+        error: "Please enter your username!"
+      });
+      return;
+    }
+
+    if(!password){
+      this.setState({
+        error: "Please enter your password!"
+      });
+      return;
+    }
 
     try {
       fetch("http://localhost:4000/users/login", {
@@ -49,7 +66,10 @@ export class Login extends Component {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify({
+          username,
+          password
+        }),
       }).then(res => res.json())
       .then(data => {
         console.log(data);
@@ -105,11 +125,15 @@ export class Login extends Component {
   render() {
     return (
       <Div className="container">
-        <h3>Log In</h3>
-        {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
+        <h1>Log In</h1>
+        <AlertDiv>
+          {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
+        </AlertDiv>
         <form onSubmit={this.onLogin} noValidate autoComplete="off">
           <div>
             <TextField
+              variant="outlined"
+              style={{padding:"0px 0px 10px 0px", width: "50%"}}
               label="Username"
               type="text"
               required
@@ -119,6 +143,8 @@ export class Login extends Component {
             />
             <h5>Or </h5>
             <TextField
+              variant="outlined"
+              style={{padding:"0px 0px 10px 0px", width: "50%"}}
               label="Email"
               type="text"
               value={this.state.email}
@@ -127,6 +153,8 @@ export class Login extends Component {
             />
             <br />
             <TextField
+              variant="outlined"
+              style={{padding:"0px 0px 10px 0px", width: "50%"}}
               label="Password"
               type="password"
               required
@@ -147,6 +175,12 @@ export class Login extends Component {
               Login
             </Button>
           </div>
+          <div>
+            <Link to="/signup">
+              Dont have an account? Sign up here!
+            </Link>
+          </div>
+
         </form>
       </Div>
     );

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from 'styled-components';
 
 const Div = styled.div`
-  height: 65vh
+  margin: 75px 0px;
 `;
 
 
