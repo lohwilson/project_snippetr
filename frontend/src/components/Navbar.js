@@ -45,8 +45,8 @@ export class Navbar extends Component {
                   <Button>
                     <Link to="/dashboard" style={styledLink}>Dashboard</Link>
                   </Button>
-                  <Button>
-                    <Link to="/dashboard" style={styledLink}>Logout</Link>
+                  <Button onClick={()=> this.context.logOut()}>
+                    <Link to="/" style={styledLink}>Logout</Link>
                   </Button>
                   <h3>Welcome, {this.context.username}!</h3>
                 </React.Fragment>

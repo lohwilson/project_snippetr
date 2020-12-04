@@ -22,12 +22,14 @@ export class AuthProvider extends Component {
   }
 
   logOut = () => {
+    console.log('logout');
     this.setState({
       username: '',
       email: '',
       id: '',
       isAuthenticated: false
     })
+    localStorage.clear();
   }
 
   render() {
