@@ -6,6 +6,7 @@ export class AuthProvider extends Component {
   state = {
     username: '',
     email: '',
+    id: '',
     isAuthenticated: false
   }
 
@@ -14,7 +15,8 @@ export class AuthProvider extends Component {
     console.log('context username', user);
     this.setState({
       username: user.username,
-      email: user.email,
+      id: user.id,
+      // email: user.email,
       isAuthenticated: true
     })
   }
@@ -23,17 +25,19 @@ export class AuthProvider extends Component {
     this.setState({
       username: '',
       email: '',
+      id: '',
       isAuthenticated: false
     })
   }
 
   render() {
-    const { username, email, isAuthenticated } = this.state;
+    const { username, email, id, isAuthenticated } = this.state;
     const { logIn, logOut } = this;
     return (
       <AuthContext.Provider value={{
         username,
         email,
+        id,
         isAuthenticated,
         logIn,
         logOut

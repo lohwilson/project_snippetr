@@ -73,9 +73,7 @@ export class SignUp extends Component {
         })
       }).then(res=>res.json())
       .then(data=>{
-          console.log(data)
           if(data.error){
-            console.log(data.error);
             this.setState({error: data.error})
             return
           } else {
@@ -89,6 +87,8 @@ export class SignUp extends Component {
             })
             console.log(this.props);
           }
+      }).catch(err => {
+        console.log(err);
       })
   };
 

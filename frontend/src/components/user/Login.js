@@ -6,6 +6,7 @@ import { AuthContext } from "../auth/AuthProvider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
+import Alert from '@material-ui/lab/Alert';
 
 const Div = styled.div`
   height: 65vh;
@@ -13,7 +14,6 @@ const Div = styled.div`
 
 export class Login extends Component {
   static contextType = AuthContext;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +21,7 @@ export class Login extends Component {
       email: "",
       password: "",
       confirmPassword: "",
-      errorMessage: "",
+      error: "",
     };
   }
 
@@ -39,33 +39,77 @@ export class Login extends Component {
 
     const user = {
       username: this.state.username,
-      email: this.state.email,
       password: this.state.password,
     };
-
-    this.context.logIn(user);
+    // this.context.logIn(this.state.username);
 
     try {
-      axios
-        .post("http://localhost:4000/users/login", user)
-        .then((res) => console.log(res.data));
-      auth.login(() => {
-        if (!this.props.location.state) {
-          this.props.history.push("/dashboard");
+      fetch("http://localhost:4000/users/login", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }).then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if(data.error){
+          this.setState({error: data.error})
+          return
         } else {
-          this.props.history.push(this.props.location.state.from.pathname);
+          console.log(data.user);
+          this.context.logIn(data.user);
+          console.log(data.token);
+          localStorage.setItem("jwt", data.token);
+          localStorage.setItem("jwt", JSON.stringify(data.user));
+
+          auth.login(() => {
+            if (!this.props.location.state) {
+              this.props.history.push("/dashboard");
+            } else {
+              this.props.history.push(this.props.location.state.from.pathname);
+            }
+          });
         }
-      });
+      })
     } catch {
       console.log("incorrect login credentials");
     }
   };
+
+  // onLogin = async (event) => {
+  //   event.preventDefault();
+
+  //   const user = {
+  //     username: this.state.username,
+  //     email: this.state.email,
+  //     password: this.state.password,
+  //   };
+
+  //   this.context.logIn(user);
+
+  //   try {
+  //     axios
+  //       .post("http://localhost:4000/users/login", user)
+  //       .then((res) => console.log(res.data));
+  //     auth.login(() => {
+  //       if (!this.props.location.state) {
+  //         this.props.history.push("/dashboard");
+  //       } else {
+  //         this.props.history.push(this.props.location.state.from.pathname);
+  //       }
+  //     });
+  //   } catch {
+  //     console.log("incorrect login credentials");
+  //   }
+  // };
 
   render() {
     const errorMessage = this.errorMessage ? <h1></h1> : "";
     return (
       <Div className="container">
         <h3>Log In</h3>
+        {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
         <form onSubmit={this.onLogin} noValidate autoComplete="off">
           <div>
             <TextField
