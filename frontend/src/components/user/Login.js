@@ -57,12 +57,10 @@ export class Login extends Component {
           this.setState({error: data.error})
           return
         } else {
-          console.log(data.user);
           this.context.logIn(data.user);
-          console.log(data.token);
+          console.log(data);
           localStorage.setItem("jwt", data.token);
-          localStorage.setItem("jwt", JSON.stringify(data.user));
-
+          localStorage.setItem("user", JSON.stringify(data.user));
           auth.login(() => {
             if (!this.props.location.state) {
               this.props.history.push("/dashboard");
@@ -105,7 +103,6 @@ export class Login extends Component {
   // };
 
   render() {
-    const errorMessage = this.errorMessage ? <h1></h1> : "";
     return (
       <Div className="container">
         <h3>Log In</h3>
@@ -151,7 +148,6 @@ export class Login extends Component {
             </Button>
           </div>
         </form>
-        {errorMessage}
       </Div>
     );
   }
