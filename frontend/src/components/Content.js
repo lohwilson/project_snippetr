@@ -9,6 +9,7 @@ import SignUp from "../components/user/SignUp";
 import Login from "../components/user/Login";
 import Dashboard from "../components/snippets/Dashboard";
 import Snippet from "./snippets/Snippet";
+import Profile from "./user/Profile"
 import PageNotFound from "./general/PageNotFound";
 
 export class Content extends Component {
@@ -23,6 +24,7 @@ export class Content extends Component {
           <Route path="/login" component={Login} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <ProtectedRoute path="/snippet/:id" component={Snippet} />
+          <ProtectedRoute path="/users/:id" component={Profile} />
           <Route path="*" component={PageNotFound}/>
         </Switch>
       </React.Fragment>

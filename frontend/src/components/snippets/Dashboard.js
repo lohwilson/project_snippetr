@@ -5,6 +5,20 @@ import Search from "./Search";
 import Profile from "../user/Profile";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+import styled from 'styled-components';
+
+const Div = styled.div`
+  text-align: center;
+  margin: 75px 0px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 75px 0px;
+`;
+
+const ContentDiv = styled.div`
+  width: 100%;
+  margin: 50px 0px;
+`;
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -58,9 +72,10 @@ export class Dashboard extends Component {
   };
 
   render() {
+    const { listAll, create, search, profile } = this.state;
     return (
       <React.Fragment>
-        <div className="container">
+        <Div className="container">
           <div>
             <ButtonGroup variant="contained" color="primary">
               <Button onClick={this.listAllSnippets}>List All Snippets</Button>
@@ -69,13 +84,13 @@ export class Dashboard extends Component {
               <Button onClick={this.profile}>Your Profile</Button>
             </ButtonGroup>
           </div>
-          <div>
-            {this.state.listAll && <ListAllSnippets />}
-            {this.state.create && <CreateSnippets />}
-            {this.state.search && <Search />}
-            {this.state.profile && <Profile />}
-          </div>
-        </div>
+          <ContentDiv>
+            {listAll && <ListAllSnippets />}
+            {create && <CreateSnippets />}
+            {search && <Search />}
+            {profile && <Profile />}
+          </ContentDiv>
+        </Div>
       </React.Fragment>
     );
   }

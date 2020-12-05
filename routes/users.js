@@ -5,5 +5,6 @@ const loginValidation = require('../validation/user');
 router.get('/protected', loginValidation, userController.protected);
 router.post('/signup', userController.createNewUser);
 router.post('/login', userController.loginUser);
+router.get('/:id', loginValidation, userController.getUser);
 
 module.exports = router;

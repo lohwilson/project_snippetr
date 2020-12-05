@@ -10,11 +10,35 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
+import styled from "styled-components";
+
+const Div = styled.div`
+  text-align: center;
+  margin: 75px 0px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 75px 0px;
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto;
+`;
+
+const UserDiv = styled.div`
+  font-size: 20px;
+  font-weight: 900;
+  margin: 20px;
+`;
+
 export class Snippets extends Component {
   constructor(props) {
     super(props);
     this.state = {
       snippet: [],
+      editing: false,
     };
   }
   static contextType = AuthContext;
@@ -22,7 +46,11 @@ export class Snippets extends Component {
   componentDidMount() {
     console.log(this.props.match.params.id);
     const id = this.props.match.params.id;
-    axios.get("http://localhost:4000/snippetr/" + id).then((res) => {
+    axios.get("http://localhost:4000/snippetr/" + id, {
+      headers: {
+        "Authorization": "Bearer "+localStorage.getItem("jwt")
+      }
+    }).then((res) => {
       console.log(res.data);
       this.setState({
         snippet: res.data,
@@ -55,15 +83,14 @@ export class Snippets extends Component {
     event.preventDefault();
     console.log("updating snippet");
 
-    const {title, story} = this.state.snippet;
+    const { title, story } = this.state.snippet;
 
     const snippet = {
       title,
-      story
-    }
+      story,
+    };
 
     console.log(snippet);
-
   };
 
   toggleLikes = () => {
@@ -72,15 +99,24 @@ export class Snippets extends Component {
 
   render() {
     const { title, story, image, postedBy, likes } = this.state.snippet;
+    console.log(this.state.snippet);
+
     console.log(this.context);
-    console.log(this.state.snippet.postedBy);
+    console.log(postedBy);
     return (
-      <div>
+      <Div>
         {!this.state.editing ? (
           <React.Fragment>
+            {postedBy && (
+              <UserDiv>
+                <span>{postedBy.username}</span>
+              </UserDiv>
+            )}
+            <div>
+              <Image src={image} alt="userImage" />
+            </div>
             <h1>{title}</h1>
             <h3>{story}</h3>
-            <img src={image} alt="userImage" />
             <br />
             <FormControlLabel
               control={
@@ -92,8 +128,9 @@ export class Snippets extends Component {
                 />
               }
             />
-            {likes} likes
+            {likes && <span>{likes.length} likes</span>}
             <br />
+
             {postedBy === this.context.id && (
               <React.Fragment>
                 <Button
@@ -158,7 +195,7 @@ export class Snippets extends Component {
         <Link to="/dashboard" className="nav-link">
           Back
         </Link>
-      </div>
+      </Div>
     );
   }
 }

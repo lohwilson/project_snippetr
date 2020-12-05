@@ -72,4 +72,10 @@ module.exports = {
   protected(req, res) {
     res.send("hello user");
   },
+
+  async getUser(req, res) {
+    const response = await User.findById(req.params.id);
+    const result = response.json();
+    console.log(result);
+  }
 };
