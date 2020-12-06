@@ -5,7 +5,9 @@ import Search from "./Search";
 import Profile from "../user/Profile";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import styled from 'styled-components';
+import styled from "styled-components";
+import { AuthContext } from "../auth/AuthProvider";
+import { Link } from "react-router-dom";
 
 const Div = styled.div`
   text-align: center;
@@ -29,6 +31,11 @@ export class Dashboard extends Component {
       search: false,
       profile: false,
     };
+  }
+  static contextType = AuthContext;
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
   }
 
   listAllSnippets = () => {
@@ -73,6 +80,7 @@ export class Dashboard extends Component {
 
   render() {
     const { listAll, create, search, profile } = this.state;
+
     return (
       <React.Fragment>
         <Div className="container">
@@ -81,7 +89,15 @@ export class Dashboard extends Component {
               <Button onClick={this.listAllSnippets}>List All Snippets</Button>
               <Button onClick={this.createSnippets}>Create Snippet</Button>
               <Button onClick={this.search}>Search</Button>
-              <Button onClick={this.profile}>Your Profile</Button>
+              <Button onClick={this.profile}>
+                <Link
+                  to={{
+                    pathname: "/users/" + this.context.id,
+                  }}
+                >
+                  Profile
+                </Link>
+              </Button>
             </ButtonGroup>
           </div>
           <ContentDiv>

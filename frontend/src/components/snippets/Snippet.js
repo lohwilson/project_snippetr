@@ -37,26 +37,38 @@ export class Snippets extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      snippet: [],
+      snippet: [
+        {
+          postedBy: "",
+        },
+      ],
       editing: false,
     };
   }
   static contextType = AuthContext;
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     console.log(this.props.match.params.id);
     const id = this.props.match.params.id;
-    axios.get("http://localhost:4000/snippetr/" + id, {
-      headers: {
-        "Authorization": "Bearer "+localStorage.getItem("jwt")
-      }
-    }).then((res) => {
-      console.log(res.data);
-      this.setState({
-        snippet: res.data,
+    axios
+      .get(
+        process.env.REACT_APP_USE_LOCAL_BACKEND
+          ? "http://localhost:4000/snippetr/" + id
+          : "https://snippetr.herokuapp.com/snippetr/" + id,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          snippet: res.data,
+        });
+        console.log(this.state);
       });
-      console.log(this.state);
-    });
   }
 
   handleDelete = async () => {
@@ -64,7 +76,11 @@ export class Snippets extends Component {
     console.log(this.props);
     const id = this.props.match.params.id;
 
-    await axios.delete("http://localhost:4000/snippetr/" + id);
+    await axios.delete(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/snippetr/" + id
+        : "https://snippetr.herokuapp.com/snippetr/" + id
+    );
     console.log("deleted", id);
     this.props.history.push("/dashboard");
   };
@@ -97,101 +113,106 @@ export class Snippets extends Component {
     console.log();
   };
 
-  render() {
+  renderNonEditing = () => {
     const { title, story, image, postedBy, likes } = this.state.snippet;
-    console.log(this.state.snippet);
-
-    console.log(this.context);
-    console.log(postedBy);
     return (
-      <Div>
-        {!this.state.editing ? (
-          <React.Fragment>
-            {postedBy && (
-              <UserDiv>
-                <span>{postedBy.username}</span>
-              </UserDiv>
-            )}
-            <div>
-              <Image src={image} alt="userImage" />
-            </div>
-            <h1>{title}</h1>
-            <h3>{story}</h3>
-            <br />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  icon={<FavoriteBorder />}
-                  checkedIcon={<Favorite />}
-                  name="likes"
-                  onChange={() => this.toggleLikes()}
-                />
-              }
+      <React.Fragment>
+        {postedBy && (
+          <UserDiv>
+            <span>{postedBy.username}</span>
+          </UserDiv>
+        )}
+        <div>
+          <Image src={image} alt="userImage" />
+        </div>
+        <h1>{title}</h1>
+        <h3>{story}</h3>
+        <br />
+        <FormControlLabel
+          control={
+            <Checkbox
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              name="likes"
+              onChange={() => this.toggleLikes()}
             />
-            {likes && <span>{likes.length} likes</span>}
-            <br />
-
-            {postedBy === this.context.id && (
-              <React.Fragment>
-                <Button
-                  onClick={this.handleDelete}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Delete
-                </Button>
-                <Button
-                  onClick={this.handleEdit}
-                  variant="contained"
-                  color="primary"
-                >
-                  Edit
-                </Button>
-              </React.Fragment>
-            )}
-          </React.Fragment>
-        ) : (
+          }
+        />
+        {likes && <span>{likes.length} likes</span>}
+        <br />
+        {console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", postedBy)}
+        {postedBy && postedBy._id === this.context.id && (
           <React.Fragment>
-            <form onSubmit={this.handleUpdate}>
-              <div>
-                <TextField
-                  label="title"
-                  type="text"
-                  id="title"
-                  value={title}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                />
-                <label htmlFor="story">
-                  Story:
-                  <TextareaAutosize
-                    rowsMin={5}
-                    aria-label="minimum height"
-                    id="story"
-                    value={story}
-                    onChange={this.handleChange}
-                  />
-                </label>
-                <br />
-                <img src={image} alt="userImage" />
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  endIcon={<Icon>send</Icon>}
-                  style={{ margin: "10px" }}
-                >
-                  Update Snippet
-                </Button>
-              </div>
-            </form>
-            <Button variant="contained" onClick={this.handleEdit}>
-              Cancel
+            <Button
+              onClick={this.handleDelete}
+              variant="contained"
+              color="secondary"
+            >
+              Delete
+            </Button>
+            <Button
+              onClick={this.handleEdit}
+              variant="contained"
+              color="primary"
+            >
+              Edit
             </Button>
           </React.Fragment>
         )}
+      </React.Fragment>
+    );
+  };
+
+  renderEditing = () => {
+    const { title, story, image, postedBy, likes } = this.state.snippet;
+    return (
+      <React.Fragment>
+        <form onSubmit={this.handleUpdate}>
+          <div>
+            <TextField
+              label="title"
+              type="text"
+              id="title"
+              value={title}
+              onChange={this.handleChange}
+              autoComplete="off"
+            />
+            <label htmlFor="story">
+              Story:
+              <TextareaAutosize
+                rowsMin={5}
+                aria-label="minimum height"
+                id="story"
+                value={story}
+                onChange={this.handleChange}
+              />
+            </label>
+            <br />
+            <img src={image} alt="userImage" />
+          </div>
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              endIcon={<Icon>send</Icon>}
+              style={{ margin: "10px" }}
+            >
+              Update Snippet
+            </Button>
+          </div>
+        </form>
+        <Button variant="contained" onClick={this.handleEdit}>
+          Cancel
+        </Button>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    return (
+      <Div>
+        {!this.state.editing ? this.renderNonEditing() : this.renderEditing()}
         <Link to="/dashboard" className="nav-link">
           Back
         </Link>

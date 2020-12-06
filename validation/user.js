@@ -4,6 +4,7 @@ const User = require("../models/user.model");
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
+  console.log(authorization);
   if(!authorization) return res.status(401).json({ error: 'No Authorization found.'})
   
   const token = authorization.replace("Bearer ", "");

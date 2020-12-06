@@ -1,22 +1,16 @@
 todos
 
 - change css to material UI
-- add jwt to user
-- 
-
 - display username / email on navbar / home page
-- create own user profile page with edit feature
+- create own user profile page with edit feature and add profile pic
+- clicking likes show modal of usernames that like snippet
+- check cloudinary for heroku
 
-- set username to each snippet, to differentiate
-- add like button to snippet
-- add snippet owner username to snippet with link to user's profile
-
-- create other user's profile with snippets showcase below
 - add feature to follow other users
 
 - show followed users snippets on dashboard
-- customize search button feature to search for snippet's tags
-
+- customize search button feature to search for snippet's title
 - css
-- google auth login (is working, need to integrate)
 
+- onemap
+- google auth login (is working, need to integrate)

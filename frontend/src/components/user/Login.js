@@ -7,7 +7,7 @@ import { AuthContext } from "../auth/AuthProvider";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
-import Alert from '@material-ui/lab/Alert';
+import Alert from "@material-ui/lab/Alert";
 
 const Div = styled.div`
   text-align: center;
@@ -17,7 +17,7 @@ const Div = styled.div`
 const AlertDiv = styled.div`
   margin: auto;
   width: 50%;
-  padding: 20px
+  padding: 20px;
 `;
 
 export class Login extends Component {
@@ -46,50 +46,59 @@ export class Login extends Component {
     event.preventDefault();
     const { username, password } = this.state;
 
-    if(!username){
+    if (!username) {
       this.setState({
-        error: "Please enter your username!"
+        error: "Please enter your username!",
       });
       return;
     }
 
-    if(!password){
+    if (!password) {
       this.setState({
-        error: "Please enter your password!"
+        error: "Please enter your password!",
       });
       return;
     }
 
     try {
-      fetch("http://localhost:4000/users/login", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password
-        }),
-      }).then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if(data.error){
-          this.setState({error: data.error})
-          return
-        } else {
-          this.context.logIn(data.user);
-          console.log(data);
-          localStorage.setItem("jwt", data.token);
-          localStorage.setItem("user", JSON.stringify(data.user));
-          auth.login(() => {
-            if (!this.props.location.state) {
-              this.props.history.push("/dashboard");
-            } else {
-              this.props.history.push(this.props.location.state.from.pathname);
-            }
-          });
+      fetch(
+        process.env.REACT_APP_USE_LOCAL_BACKEND
+          ? "http://localhost:4000/users/login"
+          : "https://snippetr.herokuapp.com/users/login",
+        {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+          body: JSON.stringify({
+            username,
+            password,
+          }),
         }
-      })
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.error) {
+            this.setState({ error: data.error });
+            return;
+          } else {
+            this.context.logIn(data.user);
+            console.log(data);
+            localStorage.setItem("jwt", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            auth.login(() => {
+              if (!this.props.location.state) {
+                this.props.history.push("/dashboard");
+              } else {
+                this.props.history.push(
+                  this.props.location.state.from.pathname
+                );
+              }
+            });
+          }
+        });
     } catch {
       console.log("incorrect login credentials");
     }
@@ -127,13 +136,15 @@ export class Login extends Component {
       <Div className="container">
         <h1>Log In</h1>
         <AlertDiv>
-          {this.state.error && (<Alert severity="error">{this.state.error}</Alert>)}
+          {this.state.error && (
+            <Alert severity="error">{this.state.error}</Alert>
+          )}
         </AlertDiv>
         <form onSubmit={this.onLogin} noValidate autoComplete="off">
           <div>
             <TextField
               variant="outlined"
-              style={{padding:"0px 0px 10px 0px", width: "50%"}}
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
               label="Username"
               type="text"
               required
@@ -144,7 +155,7 @@ export class Login extends Component {
             <h5>Or </h5>
             <TextField
               variant="outlined"
-              style={{padding:"0px 0px 10px 0px", width: "50%"}}
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
               label="Email"
               type="text"
               value={this.state.email}
@@ -154,7 +165,7 @@ export class Login extends Component {
             <br />
             <TextField
               variant="outlined"
-              style={{padding:"0px 0px 10px 0px", width: "50%"}}
+              style={{ padding: "0px 0px 10px 0px", width: "50%" }}
               label="Password"
               type="password"
               required
@@ -176,11 +187,8 @@ export class Login extends Component {
             </Button>
           </div>
           <div>
-            <Link to="/signup">
-              Dont have an account? Sign up here!
-            </Link>
+            <Link to="/signup">Dont have an account? Sign up here!</Link>
           </div>
-
         </form>
       </Div>
     );

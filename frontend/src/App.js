@@ -24,6 +24,7 @@ export class App extends Component {
     };
   }
   render() {
+    console.log(process.env);
     return (
       <Router>
         <CssBaseline />
@@ -31,7 +32,10 @@ export class App extends Component {
           <Div>
             <AuthProvider>
               <Navbar />
-              <Content currentUser={this.state.currentUser} style={{marginTop: "40px"}}/>
+              <Content
+                currentUser={this.state.currentUser}
+                style={{ marginTop: "40px" }}
+              />
               <StickyFooter />
             </AuthProvider>
           </Div>

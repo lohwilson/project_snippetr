@@ -15,7 +15,7 @@ const Div = styled.div`
 const AlertDiv = styled.div`
   margin: auto;
   width: 50%;
-  padding: 20px
+  padding: 20px;
 `;
 
 export class SignUp extends Component {
@@ -43,9 +43,9 @@ export class SignUp extends Component {
     event.preventDefault();
     const { username, email, password, confirmPassword } = this.state;
 
-    if(!username){
+    if (!username) {
       this.setState({
-        error: "Please enter your username!"
+        error: "Please enter your username!",
       });
       return;
     }
@@ -80,17 +80,23 @@ export class SignUp extends Component {
     //     console.log(data);
     // })
 
-    fetch("http://localhost:4000/users/signup", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
-    })
+    fetch(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/users/signup"
+        : "https://snippetr.herokuapp.com/users/signup",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          email,
+        }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {

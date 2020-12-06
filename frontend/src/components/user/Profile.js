@@ -47,12 +47,18 @@ export class Profile extends Component {
     console.log(this.context);
     const id = this.props.match.params.id;
     axios
-      .get("http://localhost:4000/snippetr/userSnippets/" + id, {
-        headers: {
-          "Authorization": "Bearer "+localStorage.getItem("jwt")
+      .get(
+        process.env.REACT_APP_USE_LOCAL_BACKEND
+          ? "http://localhost:4000/snippetr/userSnippets/" + id
+          : "https://snippetr.herokuapp.com/snippetr/userSnippets/" + id,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
         }
-      })
+      )
       .then((res) => {
+        console.log(res);
         console.log(res.data);
         this.setState({
           snippets: res.data,
@@ -62,14 +68,19 @@ export class Profile extends Component {
 
   likeSnippet = (id) => {
     console.log(id);
-    fetch("http://localhost:4000/snippetr/like", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id }),
-    })
+    fetch(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/snippetr/like"
+        : "https://snippetr.herokuapp.com/snippetr/like",
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id }),
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
@@ -101,8 +112,8 @@ export class Profile extends Component {
         <h1>User snippets</h1>
         <div>
           {snippets &&
-            snippets.map((snippet) => (
-              <BorderDiv>
+            snippets.map((snippet, index) => (
+              <BorderDiv key={index}>
                 <div>
                   <Image src={snippet.image} alt="userImage" />
                 </div>

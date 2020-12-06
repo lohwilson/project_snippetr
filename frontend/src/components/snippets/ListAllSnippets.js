@@ -37,49 +37,132 @@ export class ListAllSnippets extends Component {
 
   componentDidMount() {
     console.log("dashboard mounted");
-    axios.get("http://localhost:4000/snippetr", {
-      headers: {
-        "Authorization": "Bearer "+localStorage.getItem("jwt")
-      }
-    }).then((res) => {
-      console.log(res.data);
-      this.setState({
-        snippets: res.data,
+    axios
+      .get(
+        process.env.REACT_APP_USE_LOCAL_BACKEND
+          ? "http://localhost:4000/snippetr/"
+          : "https://snippetr.herokuapp.com/snippetr/",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        this.setState({
+          snippets: res.data,
+        });
       });
-    });
   }
 
   likeSnippet = (id) => {
     console.log(id);
-    fetch("http://localhost:4000/snippetr/like", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({ id }),
-    })
+    fetch(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/snippetr/like"
+        : "https://snippetr.herokuapp.com/snippetr/like",
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id }),
+      }
+    )
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        console.log(this.state.snippets);
-        const newSnippet = this.state.snippets.map((snippet) => {
-          if (snippet.id === result.id) {
-            return result;
-          } else {
-            return snippet;
-          }
-        });
-        this.setState(newSnippet);
-        console.log(this.state.snippets);
+        axios
+          .get(
+            process.env.REACT_APP_USE_LOCAL_BACKEND
+              ? "http://localhost:4000/snippetr/"
+              : "https://snippetr.herokuapp.com/snippetr/",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              snippets: res.data,
+            });
+          });
+        // console.log(result);
+        // console.log(this.state.snippets);
+
+        // const newSnippetIndex = this.state.snippets.findIndex((snippet) => {
+        //   if (snippet.id === result.id) {
+        //     return snippet;
+        //   }
+        // });
+        // const newSnippetArray = [...this.state.snippets];
+        // newSnippetArray[newSnippetIndex] = result;
+        // this.setState({ snippets: newSnippetArray });
+        // console.log(this.state.snippets);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  checkedLike = () => {
+  unLikeSnippet = (id) => {
+    console.log(id);
+    fetch(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/snippetr/unlike"
+        : "https://snippetr.herokuapp.com/snippetr/unlike",
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        axios
+          .get(
+            process.env.REACT_APP_USE_LOCAL_BACKEND
+              ? "http://localhost:4000/snippetr/"
+              : "https://snippetr.herokuapp.com/snippetr/",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              snippets: res.data,
+            });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  checkedLike = (likesArray) => {
+    console.log(likesArray);
     console.log(this.context.id);
+    const id = this.context.id;
+
+    const likeIndex = likesArray.findIndex((likes) => {
+      if (likes === id) {
+        return likes;
+      }
+    });
+    console.log(likeIndex);
+    if (likeIndex === -1) return false;
     return true;
   };
 
@@ -95,12 +178,11 @@ export class ListAllSnippets extends Component {
     const allSnippets = snippets.length ? (
       snippets.map((snippet, index) => {
         return (
-          <BorderDiv>
+          <BorderDiv key={index}>
             <UserDiv>
               <Link
                 to={{
                   pathname: "/users/" + snippet.postedBy._id,
-                  key: snippet._id,
                 }}
               >
                 <span>{snippet.postedBy.username}</span>
@@ -116,11 +198,15 @@ export class ListAllSnippets extends Component {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.checkedLike()}
+                    checked={this.checkedLike(snippet.likes)}
                     icon={<FavoriteBorder />}
                     checkedIcon={<Favorite />}
                     name="likes"
-                    onChange={() => this.likeSnippet(snippet._id)}
+                    onChange={() =>
+                      this.checkedLike(snippet.likes)
+                        ? this.unLikeSnippet(snippet._id)
+                        : this.likeSnippet(snippet._id)
+                    }
                   />
                 }
                 label={snippet.likes.length}

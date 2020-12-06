@@ -3,7 +3,7 @@ const Snippetr = require("../models/snippetr.model");
 module.exports = {
   listAllSnippets(req, res) {
     Snippetr.find()
-    .populate("postedBy", "_id username")
+      .populate("postedBy", "_id username")
       .then((snippets) => res.json(snippets))
       .catch((err) => res.status(400).json("Error: " + err));
   },
@@ -51,48 +51,56 @@ module.exports = {
 
   userSnippets(req, res) {
     Snippetr.find({ postedBy: req.params.id })
-    .populate("postedBy", "_id username")
-    .then(snippets => {
-      res.json({snippets})
-    })
-    .catch(err => {
-      console.log(err);
-    })
+      .populate("postedBy", "_id username")
+      .then((snippets) => {
+        res.json({ snippets });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 
   listOneSnippet(req, res) {
     Snippetr.findById(req.params.id)
-    .populate("postedBy", "_id username")
+      .populate("postedBy", "_id username")
       .then((snippet) => res.json(snippet))
       .catch((err) => res.status(400).json("Error: " + err));
   },
 
   likeSnippet(req, res) {
     console.log(req.body);
-    Snippetr.findByIdAndUpdate(req.body.id, {
-      $push: { likes: req.user._id }
-    },{
-      new: true
-    }).exec((err, result) => {
-      if(err){
-        return res.status(422).json({ error:err })
-      } else {
-        res.json(result)
+    Snippetr.findByIdAndUpdate(
+      req.body.id,
+      {
+        $push: { likes: req.user._id },
+      },
+      {
+        new: true,
       }
-    })
+    ).exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
   },
 
   unlikeSnippet(req, res) {
-    Snippetr.findByIdAndUpdate(req.body.id, {
-      $pull: { likes: req.user._id }
-    },{
-      new: true
-    }).exec((err, result) => {
-      if(err){
-        return res.status(422).json({ error:err })
-      } else {
-        res.json(result)
+    Snippetr.findByIdAndUpdate(
+      req.body.id,
+      {
+        $pull: { likes: req.user._id },
+      },
+      {
+        new: true,
       }
-    })
+    ).exec((err, result) => {
+      if (err) {
+        return res.status(422).json({ error: err });
+      } else {
+        res.json(result);
+      }
+    });
   },
 };

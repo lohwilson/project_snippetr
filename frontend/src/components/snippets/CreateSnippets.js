@@ -15,7 +15,7 @@ export class CreateSnippets extends Component {
       image: "",
       username: "",
       error: "",
-      success:""
+      success: "",
     };
   }
   static contextType = AuthContext;
@@ -51,7 +51,7 @@ export class CreateSnippets extends Component {
       await this.setState({
         image: result.url,
       });
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
 
@@ -61,20 +61,25 @@ export class CreateSnippets extends Component {
       image: this.state.image,
     };
 
-    fetch("http://localhost:4000/snippetr/create", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify(snippet),
-    })
+    fetch(
+      process.env.REACT_APP_USE_LOCAL_BACKEND
+        ? "http://localhost:4000/snippetr/create"
+        : "https://snippetr.herokuapp.com/snippetr/create",
+      {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify(snippet),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {
-          this.setState({error: data.error})
+          this.setState({ error: data.error });
         } else {
-          this.setState({success: "Successfully created Snippet"})
+          this.setState({ success: "Successfully created Snippet" });
           console.log(data);
         }
       });
@@ -86,7 +91,9 @@ export class CreateSnippets extends Component {
     return (
       <div>
         {this.state.error && <Alert severity="error">{this.state.error}</Alert>}
-        {this.state.success && <Alert severity="success">{this.state.success}</Alert>}
+        {this.state.success && (
+          <Alert severity="success">{this.state.success}</Alert>
+        )}
         <form onSubmit={this.createNewSnippet}>
           <div>
             <TextField
