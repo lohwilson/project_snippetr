@@ -62,7 +62,7 @@ export class CreateSnippets extends Component {
     };
 
     fetch(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/snippetr/create"
         : "https://snippetr.herokuapp.com/snippetr/create",
       {

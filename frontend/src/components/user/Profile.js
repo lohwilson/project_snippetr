@@ -48,7 +48,7 @@ export class Profile extends Component {
     const id = this.props.match.params.id;
     axios
       .get(
-        process.env.REACT_APP_USE_LOCAL_BACKEND
+        !this.context.useLocal
           ? "http://localhost:4000/snippetr/userSnippets/" + id
           : "https://snippetr.herokuapp.com/snippetr/userSnippets/" + id,
         {
@@ -69,7 +69,7 @@ export class Profile extends Component {
   likeSnippet = (id) => {
     console.log(id);
     fetch(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/snippetr/like"
         : "https://snippetr.herokuapp.com/snippetr/like",
       {

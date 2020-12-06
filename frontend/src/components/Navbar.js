@@ -11,8 +11,7 @@ const LeftDiv = styled.div`
   width: 35%;
 `;
 
-const RightDiv = styled.div`
-`;
+const RightDiv = styled.div``;
 
 const styledTitleLink = {
   color: "white",
@@ -36,7 +35,6 @@ export class Navbar extends Component {
       <React.Fragment>
         <AppBar color="primary">
           <ToolBar>
-            
             <LeftDiv>
               <div>
                 <Link to="/" style={styledTitleLink}>

@@ -12,27 +12,6 @@ import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import styled from "styled-components";
 
-const Div = styled.div`
-  text-align: center;
-  margin: 75px 0px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 75px 0px;
-`;
-
-const Image = styled.img`
-  max-width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: auto;
-`;
-
-const UserDiv = styled.div`
-  font-size: 20px;
-  font-weight: 900;
-  margin: 20px;
-`;
-
 export class Snippets extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +32,7 @@ export class Snippets extends Component {
     const id = this.props.match.params.id;
     axios
       .get(
-        process.env.REACT_APP_USE_LOCAL_BACKEND
+        !this.context.useLocal
           ? "http://localhost:4000/snippetr/" + id
           : "https://snippetr.herokuapp.com/snippetr/" + id,
         {
@@ -77,7 +56,7 @@ export class Snippets extends Component {
     const id = this.props.match.params.id;
 
     await axios.delete(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/snippetr/" + id
         : "https://snippetr.herokuapp.com/snippetr/" + id
     );
@@ -86,7 +65,6 @@ export class Snippets extends Component {
   };
 
   handleEdit = () => {
-    console.log("edit snippet");
     this.setState({ editing: !this.state.editing });
   };
 
@@ -97,20 +75,12 @@ export class Snippets extends Component {
 
   handleUpdate = (event) => {
     event.preventDefault();
-    console.log("updating snippet");
-
     const { title, story } = this.state.snippet;
-
     const snippet = {
       title,
       story,
     };
-
     console.log(snippet);
-  };
-
-  toggleLikes = () => {
-    console.log();
   };
 
   renderNonEditing = () => {
@@ -164,7 +134,7 @@ export class Snippets extends Component {
   };
 
   renderEditing = () => {
-    const { title, story, image, postedBy, likes } = this.state.snippet;
+    const { title, story, image } = this.state.snippet;
     return (
       <React.Fragment>
         <form onSubmit={this.handleUpdate}>
@@ -222,3 +192,24 @@ export class Snippets extends Component {
 }
 
 export default Snippets;
+
+const Div = styled.div`
+  text-align: center;
+  margin: 75px 0px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 75px 0px;
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto;
+`;
+
+const UserDiv = styled.div`
+  font-size: 20px;
+  font-weight: 900;
+  margin: 20px;
+`;

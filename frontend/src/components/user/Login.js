@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import auth from "../auth/auth";
 import styled from "styled-components";
 import { AuthContext } from "../auth/AuthProvider";
@@ -62,7 +61,7 @@ export class Login extends Component {
 
     try {
       fetch(
-        process.env.REACT_APP_USE_LOCAL_BACKEND
+        !this.context.useLocal
           ? "http://localhost:4000/users/login"
           : "https://snippetr.herokuapp.com/users/login",
         {

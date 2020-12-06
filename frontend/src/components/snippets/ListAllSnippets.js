@@ -39,7 +39,7 @@ export class ListAllSnippets extends Component {
     console.log("dashboard mounted");
     axios
       .get(
-        process.env.REACT_APP_USE_LOCAL_BACKEND
+        !this.context.useLocal
           ? "http://localhost:4000/snippetr/"
           : "https://snippetr.herokuapp.com/snippetr/",
         {
@@ -60,7 +60,7 @@ export class ListAllSnippets extends Component {
   likeSnippet = (id) => {
     console.log(id);
     fetch(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/snippetr/like"
         : "https://snippetr.herokuapp.com/snippetr/like",
       {
@@ -76,7 +76,7 @@ export class ListAllSnippets extends Component {
       .then((result) => {
         axios
           .get(
-            process.env.REACT_APP_USE_LOCAL_BACKEND
+            !this.context.useLocal
               ? "http://localhost:4000/snippetr/"
               : "https://snippetr.herokuapp.com/snippetr/",
             {
@@ -113,7 +113,7 @@ export class ListAllSnippets extends Component {
   unLikeSnippet = (id) => {
     console.log(id);
     fetch(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/snippetr/unlike"
         : "https://snippetr.herokuapp.com/snippetr/unlike",
       {
@@ -129,7 +129,7 @@ export class ListAllSnippets extends Component {
       .then((result) => {
         axios
           .get(
-            process.env.REACT_APP_USE_LOCAL_BACKEND
+            !this.context.useLocal
               ? "http://localhost:4000/snippetr/"
               : "https://snippetr.herokuapp.com/snippetr/",
             {

@@ -3,7 +3,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import styled from "styled-components";
 import AuthProvider from "./components/auth/AuthProvider";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 import Content from "./components/Content";
 import StickyFooter from "./components/StickyFooter";
 import CssBaseline from "@material-ui/core/CssBaseline";

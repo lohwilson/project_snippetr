@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import Alert from "@material-ui/lab/Alert";
+import { AuthContext } from "../auth/AuthProvider";
 
 const Div = styled.div`
   margin: 75px 0px;
@@ -30,9 +30,11 @@ export class SignUp extends Component {
       success: "",
     };
   }
+  static contextType = AuthContext;
 
   componentDidMount() {
     console.log("sign up");
+    console.log(this.context.useLocal);
   }
 
   onChange = (event) => {
@@ -68,20 +70,8 @@ export class SignUp extends Component {
       return;
     }
 
-    // const user = {
-    //   username,
-    //   email,
-    //   password,
-    // };
-
-    // axios.post('http://localhost:4000/users/signup', user)
-    //   .then(res => console.log(res.data))
-    //   .then(data => {
-    //     console.log(data);
-    // })
-
     fetch(
-      process.env.REACT_APP_USE_LOCAL_BACKEND
+      !this.context.useLocal
         ? "http://localhost:4000/users/signup"
         : "https://snippetr.herokuapp.com/users/signup",
       {
