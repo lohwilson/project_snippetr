@@ -8,7 +8,7 @@ export class AuthProvider extends Component {
     email: "",
     id: "",
     isAuthenticated: false,
-    useLocal: false,
+    useLocal: true,
   };
 
   logIn = (user) => {
