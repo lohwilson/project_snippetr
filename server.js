@@ -7,7 +7,7 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());

@@ -51,15 +51,52 @@ export class Snippets extends Component {
   }
 
   handleDelete = async () => {
-    console.log("delete snippet");
     console.log(this.props);
     const id = this.props.match.params.id;
+    console.log("id @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", id);
 
-    await axios.delete(
+    fetch(
       !this.context.useLocal
         ? "http://localhost:4000/snippetr/" + id
-        : "https://snippetr.herokuapp.com/snippetr/" + id
-    );
+        : "https://snippetr.herokuapp.com/snippetr/" + id,
+      {
+        method: "delete",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        axios
+          .get(
+            !this.context.useLocal
+              ? "http://localhost:4000/snippetr/" + id
+              : "https://snippetr.herokuapp.com/snippetr/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              snippet: res.data,
+            });
+            console.log(this.state);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // await axios.delete(
+    //   !this.context.useLocal
+    //     ? "http://localhost:4000/snippetr/" + id
+    //     : "https://snippetr.herokuapp.com/snippetr/" + id
+    // );
     console.log("deleted", id);
     this.props.history.push("/dashboard");
   };
