@@ -67,6 +67,16 @@ export class Navbar extends Component {
                       Logout
                     </Link>
                   </Button>
+                  <Button>
+                    <Link
+                      to={{
+                        pathname: "/users/" + this.context.id,
+                      }}
+                      style={styledLink}
+                    >
+                      {this.context.username}
+                    </Link>
+                  </Button>
                 </React.Fragment>
               ) : (
                 <React.Fragment>

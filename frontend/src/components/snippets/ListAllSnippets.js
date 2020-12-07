@@ -8,9 +8,21 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
 
+const OverallDiv = styled.div`
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
 const BorderDiv = styled.div`
-  border: 5px solid black;
+  border: 0.1em solid #d3d3d3;
   margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px grey;
 `;
 
 const Image = styled.img`
@@ -20,10 +32,34 @@ const Image = styled.img`
   margin: auto;
 `;
 
+const styledUserLink = {
+  color: "black",
+  textDecoration: "none",
+  textAlign: "left",
+};
+
 const UserDiv = styled.div`
+  width: 100%
   font-size: 20px;
   font-weight: 900;
-  margin: 20px;
+  margin: 20px;  
+`;
+
+const LikeDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const TitleDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const StoryDiv = styled.div`
+  width: 100%;
+  padding: 10px;
 `;
 
 export class ListAllSnippets extends Component {
@@ -92,18 +128,6 @@ export class ListAllSnippets extends Component {
               snippets: res.data,
             });
           });
-        // console.log(result);
-        // console.log(this.state.snippets);
-
-        // const newSnippetIndex = this.state.snippets.findIndex((snippet) => {
-        //   if (snippet.id === result.id) {
-        //     return snippet;
-        //   }
-        // });
-        // const newSnippetArray = [...this.state.snippets];
-        // newSnippetArray[newSnippetIndex] = result;
-        // this.setState({ snippets: newSnippetArray });
-        // console.log(this.state.snippets);
       })
       .catch((err) => {
         console.log(err);
@@ -152,80 +176,68 @@ export class ListAllSnippets extends Component {
   };
 
   checkedLike = (likesArray) => {
-    console.log(likesArray);
-    console.log(this.context.id);
     const id = this.context.id;
-
     const likeIndex = likesArray.findIndex((likes) => {
       if (likes === id) {
         return likes;
       }
     });
-    console.log(likeIndex);
     if (likeIndex === -1) return false;
     return true;
-  };
-
-  toggleLikes = (snippet, index) => {
-    console.log("toggling likes", index);
-    console.log(("snippet", snippet));
-    snippet.likes++;
-    console.log(snippet);
   };
 
   render() {
     const { snippets } = this.state;
     const allSnippets = snippets.length ? (
       snippets.map((snippet, index) => {
+        const { postedBy, image, likes, _id, title, story } = snippet;
         return (
           <BorderDiv key={index}>
             <UserDiv>
               <Link
                 to={{
-                  pathname: "/users/" + snippet.postedBy._id,
+                  pathname: "/users/" + postedBy._id,
                 }}
+                style={styledUserLink}
               >
-                <span>{snippet.postedBy.username}</span>
+                <span>{postedBy.username}</span>
               </Link>
             </UserDiv>
-            <UserDiv>
-              <span>{snippet.postedBy.username}</span>
-            </UserDiv>
             <div>
-              <Image src={snippet.image} alt="userImage" />
+              <Image src={image} alt="userImage" />
             </div>
-            <div>
+            <LikeDiv>
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={this.checkedLike(snippet.likes)}
+                    checked={this.checkedLike(likes)}
                     icon={<FavoriteBorder />}
                     checkedIcon={<Favorite />}
                     name="likes"
                     onChange={() =>
-                      this.checkedLike(snippet.likes)
-                        ? this.unLikeSnippet(snippet._id)
-                        : this.likeSnippet(snippet._id)
+                      this.checkedLike(likes)
+                        ? this.unLikeSnippet(_id)
+                        : this.likeSnippet(_id)
                     }
                   />
                 }
-                label={snippet.likes.length}
+                label={likes.length}
               />
-            </div>
-            <div>
+            </LikeDiv>
+            <TitleDiv>
               <Link
                 to={{
-                  pathname: "/snippet/" + snippet._id,
+                  pathname: "/snippet/" + _id,
                   snippet: snippet,
-                  key: snippet._id,
+                  key: _id,
                 }}
               >
-                <span>{snippet.title}</span>
+                <span>{title}</span>
               </Link>
-            </div>
-            <div>
-              <p>{snippet.story}</p>
-            </div>
+            </TitleDiv>
+            <StoryDiv>
+              <p>{story}</p>
+            </StoryDiv>
           </BorderDiv>
         );
       })
@@ -235,7 +247,7 @@ export class ListAllSnippets extends Component {
     return (
       <div>
         <h1>List all snippets</h1>
-        <div>{allSnippets}</div>
+        <OverallDiv>{allSnippets}</OverallDiv>
       </div>
     );
   }

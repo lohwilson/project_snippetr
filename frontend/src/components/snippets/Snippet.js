@@ -50,7 +50,7 @@ export class Snippets extends Component {
       });
   }
 
-  handleDelete = async () => {
+  handleDelete = () => {
     console.log(this.props);
     const id = this.props.match.params.id;
     console.log("id @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", id);
@@ -92,11 +92,6 @@ export class Snippets extends Component {
       .catch((err) => {
         console.log(err);
       });
-    // await axios.delete(
-    //   !this.context.useLocal
-    //     ? "http://localhost:4000/snippetr/" + id
-    //     : "https://snippetr.herokuapp.com/snippetr/" + id
-    // );
     console.log("deleted", id);
     this.props.history.push("/dashboard");
   };

@@ -43,9 +43,7 @@ export class Profile extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
-    console.log(this.props.match);
-    console.log(this.context);
-    const id = this.props.match.params.id;
+    const id = this.context.id;
     axios
       .get(
         !this.context.useLocal
@@ -58,7 +56,6 @@ export class Profile extends Component {
         }
       )
       .then((res) => {
-        console.log(res);
         console.log(res.data);
         this.setState({
           snippets: res.data,
@@ -109,7 +106,7 @@ export class Profile extends Component {
     const { snippets } = this.state.snippets;
     return (
       <Div>
-        <h1>User snippets</h1>
+        <h1> snippets</h1>
         <div>
           {snippets &&
             snippets.map((snippet, index) => (
