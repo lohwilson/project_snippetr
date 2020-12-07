@@ -8,50 +8,6 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
 
-const Div = styled.div`
-  margin: auto;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 75px 0px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-const BorderDiv = styled.div`
-  border: 0.1em solid #d3d3d3;
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  box-shadow: 5px 5px 5px grey;
-`;
-
-const Image = styled.img`
-  max-width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: auto;
-`;
-
-const LikeDiv = styled.div`
-  width: 100%;
-  text-align: left;
-  padding: 0px 35px;
-`;
-
-const TitleDiv = styled.div`
-  width: 100%;
-  text-align: left;
-  padding: 0px 35px;
-`;
-
-const StoryDiv = styled.div`
-  width: 100%;
-  padding: 10px;
-`;
-
 export class Profile extends Component {
   constructor(props) {
     super(props);
@@ -63,8 +19,7 @@ export class Profile extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    console.log(this.props.match.params.id);
-    console.log(this.context.id);
+    console.log(this.props.match.params);
     const id = this.props.match.params.id;
     axios
       .get(
@@ -182,12 +137,27 @@ export class Profile extends Component {
     const { snippets } = this.state.snippets;
     return (
       <Div>
-        <h1>
-          {snippets && snippets.length > 0 && (
-            <p>{snippets[0].postedBy.username}'s Profile</p>
-          )}{" "}
-        </h1>
-        <div>
+        <UserDiv>
+          <TopDiv>
+            <Img
+              src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
+              alt="user profile pic"
+            ></Img>
+            <h1>
+              {snippets && snippets.length > 0 && (
+                <p>{snippets[0].postedBy.username}'s Profile</p>
+              )}{" "}
+            </h1>
+          </TopDiv>
+          <BottomDiv>
+            <Img
+              src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
+              alt="user profile pic"
+            ></Img>
+          </BottomDiv>
+        </UserDiv>
+
+        <SnippetDiv>
           {snippets &&
             snippets.map((snippet, index) => (
               <BorderDiv key={index}>
@@ -228,10 +198,71 @@ export class Profile extends Component {
                 </StoryDiv>
               </BorderDiv>
             ))}
-        </div>
+        </SnippetDiv>
       </Div>
     );
   }
 }
 
 export default Profile;
+
+const Div = styled.div`
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 75px 0px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const BorderDiv = styled.div`
+  border: 0.1em solid #d3d3d3;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px grey;
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto;
+`;
+
+const LikeDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const TitleDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const StoryDiv = styled.div`
+  width: 100%;
+  padding: 10px;
+`;
+
+const SnippetDiv = styled.div``;
+
+const Img = styled.img`
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+`;
+
+const UserDiv = styled.div``;
+
+const BottomDiv = styled.div``;
+
+const TopDiv = styled.div`
+  display: inline;
+`;

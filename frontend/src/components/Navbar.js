@@ -27,6 +27,11 @@ const styledLink = {
 
 export class Navbar extends Component {
   static contextType = AuthContext;
+  checkUrl = () => {
+    console.log("check");
+    console.log(this);
+  };
+
   render() {
     console.log(this.context);
     const isLoggedIn = auth.isAuthenticated();
@@ -68,6 +73,7 @@ export class Navbar extends Component {
                       to={{
                         pathname: "/users/" + this.context.id,
                       }}
+                      onClick={() => this.checkUrl()}
                       style={styledLink}
                     >
                       {this.context.username}
