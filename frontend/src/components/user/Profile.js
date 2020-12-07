@@ -9,16 +9,23 @@ import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
 
 const Div = styled.div`
-  text-align: center;
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   margin: 75px 0px;
   margin-left: auto;
   margin-right: auto;
-  border: 75px 0px;
 `;
 
 const BorderDiv = styled.div`
-  border: 5px solid black;
+  border: 0.1em solid #d3d3d3;
   margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px grey;
 `;
 
 const Image = styled.img`
@@ -28,11 +35,23 @@ const Image = styled.img`
   margin: auto;
 `;
 
-const UserDiv = styled.div`
-  font-size: 20px;
-  font-weight: 900;
-  margin: 20px;
+const LikeDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
 `;
+
+const TitleDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const StoryDiv = styled.div`
+  width: 100%;
+  padding: 10px;
+`;
+
 export class Profile extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +62,8 @@ export class Profile extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
+    window.scrollTo(0, 0);
+
     const id = this.context.id;
     axios
       .get(
@@ -80,25 +101,79 @@ export class Profile extends Component {
     )
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        console.log(this.state.snippets);
-        const newSnippet = this.state.snippets.map((snippet) => {
-          if (snippet.id === result.id) {
-            return result;
-          } else {
-            return snippet;
-          }
-        });
-        this.setState(newSnippet);
-        console.log(this.state.snippets);
+        const id = this.context.id;
+        axios
+          .get(
+            !this.context.useLocal
+              ? "http://localhost:4000/snippetr/userSnippets/" + id
+              : "https://snippetr.herokuapp.com/snippetr/userSnippets/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              snippets: res.data,
+            });
+          });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  checkedLike = () => {
-    console.log(this.context.id);
+  unLikeSnippet = (id) => {
+    console.log(id);
+    fetch(
+      !this.context.useLocal
+        ? "http://localhost:4000/snippetr/unlike"
+        : "https://snippetr.herokuapp.com/snippetr/unlike",
+      {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify({ id }),
+      }
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        const id = this.context.id;
+        axios
+          .get(
+            !this.context.useLocal
+              ? "http://localhost:4000/snippetr/userSnippets/" + id
+              : "https://snippetr.herokuapp.com/snippetr/userSnippets/" + id,
+            {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            this.setState({
+              snippets: res.data,
+            });
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  checkedLike = (likesArray) => {
+    const id = this.context.id;
+    const likeIndex = likesArray.findIndex((likes) => {
+      if (likes === id) {
+        return likes;
+      }
+    });
+    if (likeIndex === -1) return false;
     return true;
   };
 
@@ -114,21 +189,25 @@ export class Profile extends Component {
                 <div>
                   <Image src={snippet.image} alt="userImage" />
                 </div>
-                <div>
+                <LikeDiv>
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={this.checkedLike()}
+                        checked={this.checkedLike(snippet.likes)}
                         icon={<FavoriteBorder />}
                         checkedIcon={<Favorite />}
                         name="likes"
-                        onChange={() => this.likeSnippet(snippet._id)}
+                        onChange={() =>
+                          this.checkedLike(snippet.likes)
+                            ? this.unLikeSnippet(snippet._id)
+                            : this.likeSnippet(snippet._id)
+                        }
                       />
                     }
                     label={snippet.likes.length}
                   />
-                </div>
-                <div>
+                </LikeDiv>
+                <TitleDiv>
                   <Link
                     to={{
                       pathname: "/snippet/" + snippet._id,
@@ -138,10 +217,10 @@ export class Profile extends Component {
                   >
                     <span>{snippet.title}</span>
                   </Link>
-                </div>
-                <div>
+                </TitleDiv>
+                <StoryDiv>
                   <p>{snippet.story}</p>
-                </div>
+                </StoryDiv>
               </BorderDiv>
             ))}
         </div>
