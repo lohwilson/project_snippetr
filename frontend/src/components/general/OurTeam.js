@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Div = styled.div`
   margin: 75px 0px;
 `;
 
-
 export class OurTeam extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <Div className="container">

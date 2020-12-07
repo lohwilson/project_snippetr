@@ -62,11 +62,7 @@ export class Navbar extends Component {
                       Dashboard
                     </Link>
                   </Button>
-                  <Button onClick={() => this.context.logOut()}>
-                    <Link to="/" style={styledLink}>
-                      Logout
-                    </Link>
-                  </Button>
+
                   <Button>
                     <Link
                       to={{
@@ -75,6 +71,12 @@ export class Navbar extends Component {
                       style={styledLink}
                     >
                       {this.context.username}
+                    </Link>
+                  </Button>
+
+                  <Button onClick={() => this.context.logOut()}>
+                    <Link to="/" style={styledLink}>
+                      Logout
                     </Link>
                   </Button>
                 </React.Fragment>

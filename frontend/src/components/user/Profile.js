@@ -63,8 +63,9 @@ export class Profile extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-
-    const id = this.context.id;
+    console.log(this.props.match.params.id);
+    console.log(this.context.id);
+    const id = this.props.match.params.id;
     axios
       .get(
         !this.context.useLocal
@@ -181,7 +182,11 @@ export class Profile extends Component {
     const { snippets } = this.state.snippets;
     return (
       <Div>
-        <h1> snippets</h1>
+        <h1>
+          {snippets && snippets.length > 0 && (
+            <p>{snippets[0].postedBy.username}'s Profile</p>
+          )}{" "}
+        </h1>
         <div>
           {snippets &&
             snippets.map((snippet, index) => (
