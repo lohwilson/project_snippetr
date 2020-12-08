@@ -28,7 +28,6 @@ export class Snippets extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    console.log(this.props.match.params.id);
     const id = this.props.match.params.id;
     axios
       .get(
@@ -42,19 +41,14 @@ export class Snippets extends Component {
         }
       )
       .then((res) => {
-        console.log(res.data);
         this.setState({
           snippet: res.data,
         });
-        console.log(this.state);
       });
   }
 
   handleDelete = () => {
-    console.log(this.props);
     const id = this.props.match.params.id;
-    console.log("id @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", id);
-
     fetch(
       !this.context.useLocal
         ? "http://localhost:4000/snippetr/" + id
@@ -82,17 +76,14 @@ export class Snippets extends Component {
             }
           )
           .then((res) => {
-            console.log(res.data);
             this.setState({
               snippet: res.data,
             });
-            console.log(this.state);
           });
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log("deleted", id);
     this.props.history.push("/dashboard");
   };
 
@@ -116,7 +107,6 @@ export class Snippets extends Component {
   };
 
   likeSnippet = (id) => {
-    console.log(id);
     fetch(
       !this.context.useLocal
         ? "http://localhost:4000/snippetr/like"
@@ -145,11 +135,9 @@ export class Snippets extends Component {
             }
           )
           .then((res) => {
-            console.log(res.data);
             this.setState({
               snippet: res.data,
             });
-            console.log(this.state);
           });
       })
       .catch((err) => {
@@ -187,11 +175,9 @@ export class Snippets extends Component {
             }
           )
           .then((res) => {
-            console.log(res.data);
             this.setState({
               snippet: res.data,
             });
-            console.log(this.state);
           });
       })
       .catch((err) => {
@@ -201,7 +187,6 @@ export class Snippets extends Component {
 
   checkedLike = (likesArray) => {
     const id = this.context.id;
-    console.log(likesArray);
     const likeIndex = likesArray.findIndex((likes) => {
       if (likes === id) {
         return likes;
@@ -213,7 +198,6 @@ export class Snippets extends Component {
 
   renderNonEditing = () => {
     const { title, story, image, postedBy, likes, _id } = this.state.snippet;
-    console.log(likes);
     return (
       <React.Fragment>
         {postedBy && (

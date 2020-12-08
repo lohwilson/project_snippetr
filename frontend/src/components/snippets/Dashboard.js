@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { AuthContext } from "../auth/AuthProvider";
 import ImageIcon from "@material-ui/icons/Image";
 import ImageSearchIcon from "@material-ui/icons/ImageSearch";
-import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 const Div = styled.div`
