@@ -145,16 +145,12 @@ export class Profile extends Component {
             ></Img>
             <h1>
               {snippets && snippets.length > 0 && (
-                <p>{snippets[0].postedBy.username}'s Profile</p>
+                <div>
+                  <p>{snippets[0].postedBy.username}'s Profile</p>
+                </div>
               )}{" "}
             </h1>
           </TopDiv>
-          <BottomDiv>
-            <Img
-              src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
-              alt="user profile pic"
-            ></Img>
-          </BottomDiv>
         </UserDiv>
 
         <SnippetDiv>

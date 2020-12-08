@@ -10,7 +10,7 @@ import Alert from "@material-ui/lab/Alert";
 
 const Div = styled.div`
   text-align: center;
-  margin: 75px 0px;
+  margin: 75px 0px 200px 0px;
 `;
 
 const AlertDiv = styled.div`
@@ -78,7 +78,7 @@ export class Login extends Component {
       )
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", data);
           if (data.error) {
             this.setState({ error: data.error });
             return;

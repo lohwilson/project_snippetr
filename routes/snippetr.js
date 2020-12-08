@@ -15,6 +15,9 @@ router.get(
   loginValidation,
   snippetrController.userSnippets
 );
+
+router.get("/title/:id", loginValidation, snippetrController.searchByTitle);
+
 router.get("/:id", loginValidation, snippetrController.listOneSnippet);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { AuthContext } from "./auth/AuthProvider";
 import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
+import HomeIcon from "@material-ui/icons/Home";
 
 const LeftDiv = styled.div`
   width: 35%;
@@ -23,6 +24,11 @@ const styledTitleLink = {
 const styledLink = {
   color: "white",
   textDecoration: "none",
+};
+
+const homeIconStyle = {
+  color: "white",
+  margin: "5px",
 };
 
 export class Navbar extends Component {
@@ -43,11 +49,16 @@ export class Navbar extends Component {
             <LeftDiv>
               <div>
                 <Link to="/" style={styledTitleLink}>
+                  <HomeIcon style={homeIconStyle} />
                   Snippetr
                 </Link>
               </div>
             </LeftDiv>
-
+            <div>
+              <Link to="/">
+                <HomeIcon style={homeIconStyle} />
+              </Link>
+            </div>
             <RightDiv>
               <Button>
                 <Link to="/about" style={styledLink}>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 const Div = styled.div`
-  margin: 75px 0px;
+  margin: 75px 0px 600px 0px;
 `;
 export class About extends Component {
   componentDidMount() {

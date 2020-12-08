@@ -4,7 +4,7 @@ import styled from "styled-components";
 import AuthProvider from "./components/auth/AuthProvider";
 import Navbar from "./components/Navbar";
 import Content from "./components/Content";
-import StickyFooter from "./components/StickyFooter";
+import Footer from "./components/Footer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 
@@ -35,10 +35,10 @@ export class App extends Component {
                 currentUser={this.state.currentUser}
                 style={{ marginTop: "40px" }}
               />
-              <StickyFooter />
             </AuthProvider>
           </Div>
         </Container>
+        <Footer />
       </Router>
     );
   }

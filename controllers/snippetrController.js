@@ -9,7 +9,7 @@ module.exports = {
   },
 
   deleteSnippet(req, res) {
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', req.params.id)
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", req.params.id);
     Snippetr.findByIdAndDelete(req.params.id)
       .then(() => res.json("Snippet deleted!"))
       .catch((err) => res.status(400).json("Error: " + err));
@@ -103,5 +103,11 @@ module.exports = {
         res.json(result);
       }
     });
+  },
+
+  searchByTitle(req, res) {
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log(req.body);
+    Snippetr.find({ title: {} });
   },
 };

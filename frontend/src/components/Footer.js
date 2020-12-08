@@ -9,7 +9,6 @@ const Div = styled.footer`
   flex-wrap: wrap;
   color: white;
   padding: 20px;
-
 `;
 
 const Ul = styled.ul`
@@ -33,14 +32,27 @@ export class Footer extends Component {
           <li>Mongoose</li>
           <li>Dotenv</li>
           <li>Axios</li>
-          <li>Bootstrap</li>
+          <li>Material UI</li>
+          <li>Cloudinary</li>
         </Ul>
         <Ul>
+          <h3>Authentication</h3>
+          <li>JSON Web Token</li>
+          <li>Bcrypt</li>
+        </Ul>
+        <Ul>
+          <h3>Deployment</h3>
+          <li>Monolith</li>
+          <li>Heroku</li>
+        </Ul>
+        {/* <Ul>
           <h3>APIs</h3>
           <li>Map Box</li>
           <li>Countries</li>
-        </Ul>
-        <p>© {new Date().getFullYear()} Snippetr</p>
+        </Ul> */}
+        <p style={{ padding: "150px 0px 0px 0px" }}>
+          © {new Date().getFullYear()} Snippetr
+        </p>
       </Div>
     );
   }

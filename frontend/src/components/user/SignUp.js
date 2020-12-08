@@ -8,7 +8,7 @@ import Alert from "@material-ui/lab/Alert";
 import { AuthContext } from "../auth/AuthProvider";
 
 const Div = styled.div`
-  margin: 75px 0px;
+  margin: 75px 0px 200px 0px;
   text-align: center;
 `;
 
@@ -84,6 +84,8 @@ export class SignUp extends Component {
           username,
           password,
           email,
+          image:
+            "https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg",
         }),
       }
     )

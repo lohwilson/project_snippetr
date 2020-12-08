@@ -12,22 +12,24 @@ const Div = styled.div`
 
 const box = [
   {
-    text: "discover a new world",
+    text: "A picture is worth a thousand words,",
     image:
       "https://www.popsci.com/resizer/Dwo6RWlHWl2nNQr4ct0ETBxqtII=/828x552/cloudfront-us-east-1.images.arcpublishing.com/bonnier/3NIEQB3SFVCMNHH6MHZ42FO6PA.jpg",
   },
   {
-    text: "unlock your passion",
+    text: "With Snippetr,",
     image:
       "https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Minimalist-Natural-Presentation-Simple-Background-Image.jpg",
   },
   {
-    text: "an exeprience like no other",
-    image: "https://loveisinmytummy.com/wp-content/uploads/2017/07/New-Blue-Background-Main-2.jpg",
+    text: "You'll get a picture ",
+    image:
+      "https://loveisinmytummy.com/wp-content/uploads/2017/07/New-Blue-Background-Main-2.jpg",
   },
   {
-    text: "discover your soul",
-    image: "https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Modern-NYC-Skyline-Simple-Background-Image-.jpg",
+    text: "& a thousand words.",
+    image:
+      "https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Modern-NYC-Skyline-Simple-Background-Image-.jpg",
   },
 ];
 
@@ -45,16 +47,14 @@ export class MainPage extends Component {
 
   render() {
     return (
-      <div style={{textAlign:'center'}}>
+      <div style={{ textAlign: "center" }}>
         <h1>Welcome to Snippetr</h1>
         <Div>
           {this.state.box.map((box, index) => (
             <Image someText={box.text} image={box.image} key={index} />
           ))}
         </Div>
-        <div>
-
-        </div>
+        <div></div>
       </div>
     );
   }

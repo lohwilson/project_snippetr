@@ -72,6 +72,7 @@ export class ListAllSnippets extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     console.log("dashboard mounted");
     axios
       .get(

@@ -4,10 +4,9 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = {
-
   async createNewUser(req, res) {
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password, image } = req.body;
 
       if (!username || !email || !password) {
         return res.status(400).json({ error: "Please enter all fields." });
@@ -32,10 +31,10 @@ module.exports = {
         username,
         email,
         password: passwordHash,
+        image,
       });
       const savedUser = await newUser.save();
       res.json(savedUser);
-      
     } catch (err) {
       res.status(500).json(err);
     }
@@ -56,7 +55,7 @@ module.exports = {
       if (!verifyPassword)
         return res.status(400).json({ error: "Invalid username or password." });
 
-      const token = jwt.sign({ id: user._id }, JWT_SECRET, {expiresIn: 3600});
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: 3600 });
       res.json({
         token,
         user: {
@@ -65,7 +64,7 @@ module.exports = {
         },
       });
     } catch (err) {
-      res.status(500).json({ error: err.message })
+      res.status(500).json({ error: err.message });
     }
   },
 
@@ -77,5 +76,5 @@ module.exports = {
     const response = await User.findById(req.params.id);
     const result = response.json();
     console.log(result);
-  }
+  },
 };

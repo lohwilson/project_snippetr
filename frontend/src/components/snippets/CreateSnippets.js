@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { AuthContext } from "../auth/AuthProvider";
 import Alert from "@material-ui/lab/Alert";
+import styled from "styled-components";
 
 export class CreateSnippets extends Component {
   constructor(props) {
@@ -90,42 +91,50 @@ export class CreateSnippets extends Component {
   render() {
     return (
       <div>
+        <h1>Create your snippet here!</h1>
+        <h3>Start sharing your adventure with others today!</h3>
         {this.state.error && <Alert severity="error">{this.state.error}</Alert>}
         {this.state.success && (
           <Alert severity="success">{this.state.success}</Alert>
         )}
         <form onSubmit={this.createNewSnippet}>
-          <div>
-            <TextField
-              label="title"
-              type="text"
-              id="title"
-              value={this.state.title}
-              onChange={this.handleChange}
-              autoComplete="off"
-              className="form-control col-6"
-            />
-            <label htmlFor="story">
-              Story:
-              <TextareaAutosize
-                rowsMin={5}
-                aria-label="minimum height"
-                id="story"
-                value={this.state.story}
+          <FormDiv>
+            <TitleDiv>
+              <TextField
+                label="title"
+                type="text"
+                id="title"
+                value={this.state.title}
                 onChange={this.handleChange}
+                autoComplete="off"
+                className="form-control col-6"
               />
-            </label>
+            </TitleDiv>
+            <StoryDiv>
+              <label htmlFor="story">
+                Story:
+                <TextareaAutosize
+                  rowsMin={8}
+                  aria-label="minimum height"
+                  id="story"
+                  value={this.state.story}
+                  onChange={this.handleChange}
+                />
+              </label>
+            </StoryDiv>
             <br />
-            <label htmlFor="image">Image: </label>
-            <input type="file" id="image" onChange={this.handleImageChange} />
-          </div>
+            <ImageDiv>
+              <label htmlFor="image">Image: </label>
+              <input type="file" id="image" onChange={this.handleImageChange} />
+            </ImageDiv>
+          </FormDiv>
           <div>
             <Button
               type="submit"
               variant="contained"
               color="primary"
               endIcon={<Icon>send</Icon>}
-              style={{ margin: "10px" }}
+              style={{ margin: "15px" }}
             >
               Create Snippet
             </Button>
@@ -137,3 +146,17 @@ export class CreateSnippets extends Component {
 }
 
 export default CreateSnippets;
+
+const FormDiv = styled.div``;
+
+const TitleDiv = styled.div`
+  margin: 20px;
+`;
+
+const StoryDiv = styled.div`
+  margin: 20px;
+`;
+
+const ImageDiv = styled.div`
+  margin: 20px;
+`;
