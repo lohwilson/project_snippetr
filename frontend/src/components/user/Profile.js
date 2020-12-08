@@ -57,7 +57,7 @@ export class Profile extends Component {
     )
       .then((res) => res.json())
       .then((result) => {
-        const id = this.context.id;
+        const id = this.props.match.params.id;
         axios
           .get(
             !this.context.useLocal
@@ -98,7 +98,7 @@ export class Profile extends Component {
     )
       .then((res) => res.json())
       .then((result) => {
-        const id = this.context.id;
+        const id = this.props.match.params.id;
         axios
           .get(
             !this.context.useLocal

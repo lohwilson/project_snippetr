@@ -8,7 +8,6 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
 import Modal from "@material-ui/core/Modal";
-import { makeStyles } from "@material-ui/core/styles";
 
 export class ListAllSnippets extends Component {
   constructor(props) {
@@ -38,7 +37,7 @@ export class ListAllSnippets extends Component {
       .then((res) => {
         console.log(res.data);
         this.setState({
-          snippets: res.data,
+          snippets: res.data.reverse(),
         });
       });
   }
@@ -75,7 +74,7 @@ export class ListAllSnippets extends Component {
           .then((res) => {
             console.log(res.data);
             this.setState({
-              snippets: res.data,
+              snippets: res.data.reverse(),
             });
           });
       })
@@ -116,7 +115,7 @@ export class ListAllSnippets extends Component {
           .then((res) => {
             console.log(res.data);
             this.setState({
-              snippets: res.data,
+              snippets: res.data.reverse(),
             });
           });
       })

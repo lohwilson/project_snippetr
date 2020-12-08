@@ -13,3 +13,8 @@ todos
 
 - onemap
 - google auth login (is working, need to integrate)
+
+bugs:
+
+- when on another user's profile, clicking my profile only changes url, but will not redirect to own profile page
+-
