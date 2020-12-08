@@ -98,11 +98,10 @@ export class Snippets extends Component {
 
   handleUpdate = (event) => {
     event.preventDefault();
-    const { title, story } = this.state.snippet;
-    const snippet = {
-      title,
-      story,
-    };
+    const snippet = { ...this.state.snippet };
+    snippet.event.target.id = event.target.value;
+    this.setState({ snippet });
+
     console.log(snippet);
   };
 
@@ -192,6 +191,7 @@ export class Snippets extends Component {
         return likes;
       }
     });
+    console.log(likeIndex);
     if (likeIndex === -1) return false;
     return true;
   };
@@ -202,7 +202,14 @@ export class Snippets extends Component {
       <React.Fragment>
         {postedBy && (
           <UserDiv>
-            <span>{postedBy.username}</span>
+            <Link
+              to={{
+                pathname: "/users/" + postedBy._id,
+              }}
+              style={styledUserLink}
+            >
+              <span>{postedBy.username}</span>
+            </Link>
           </UserDiv>
         )}
         <div>
@@ -228,7 +235,6 @@ export class Snippets extends Component {
         />
         {likes && <span>{likes.length} likes</span>}
         <br />
-        {console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", postedBy)}
         {postedBy && postedBy._id === this.context.id && (
           <React.Fragment>
             <Button
@@ -238,13 +244,13 @@ export class Snippets extends Component {
             >
               Delete
             </Button>
-            <Button
+            {/* <Button
               onClick={this.handleEdit}
               variant="contained"
               color="primary"
             >
               Edit
-            </Button>
+            </Button> */}
           </React.Fragment>
         )}
       </React.Fragment>
@@ -252,31 +258,44 @@ export class Snippets extends Component {
   };
 
   renderEditing = () => {
-    const { title, story, image } = this.state.snippet;
+    const { title, story, image, postedBy } = this.state.snippet;
     return (
       <React.Fragment>
         <form onSubmit={this.handleUpdate}>
+          <UserDiv>
+            <Link
+              to={{
+                pathname: "/users/" + postedBy._id,
+              }}
+              style={styledUserLink}
+            >
+              <span>{postedBy.username}</span>
+            </Link>
+          </UserDiv>
+          <img src={image} alt="userImage" />
           <div>
-            <TextField
-              label="title"
-              type="text"
-              id="title"
-              value={title}
-              onChange={this.handleChange}
-              autoComplete="off"
-            />
-            <label htmlFor="story">
-              Story:
-              <TextareaAutosize
-                rowsMin={5}
-                aria-label="minimum height"
+            <EditTitle>
+              <TextField
+                variant="outlined"
+                label="title"
+                type="text"
+                id="title"
+                value={title}
+                onChange={this.handleChange}
+                autoComplete="off"
+              />
+            </EditTitle>
+            <EditStory>
+              <TextField
+                label="story"
+                variant="outlined"
+                type="textarea"
                 id="story"
                 value={story}
                 onChange={this.handleChange}
               />
-            </label>
+            </EditStory>
             <br />
-            <img src={image} alt="userImage" />
           </div>
           <div>
             <Button
@@ -301,9 +320,9 @@ export class Snippets extends Component {
     return (
       <Div>
         {!this.state.editing ? this.renderNonEditing() : this.renderEditing()}
-        <Link to="/dashboard" className="nav-link">
+        {/* <Link to="/dashboard" className="nav-link">
           Back
-        </Link>
+        </Link> */}
       </Div>
     );
   }
@@ -330,4 +349,20 @@ const UserDiv = styled.div`
   font-size: 20px;
   font-weight: 900;
   margin: 20px;
+`;
+
+const styledUserLink = {
+  color: "black",
+  textDecoration: "none",
+  textAlign: "left",
+};
+
+const EditTitle = styled.div`
+  margin: 10px;
+`;
+
+const EditStory = styled.div`
+  margin: 10px;
+  width: 100%;
+  height: 100px;
 `;

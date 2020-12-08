@@ -51,7 +51,7 @@ export class Navbar extends Component {
     console.log(isLoggedIn);
     return (
       <React.Fragment>
-        <AppBar color="primary">
+        <AppBar color="secondary">
           <ToolBar>
             <LeftDiv>
               <div>

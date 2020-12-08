@@ -10,7 +10,6 @@ const Div1 = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: 15px 15px 15px grey;
-
 `;
 
 const Div2 = styled.div`
@@ -21,7 +20,6 @@ const Div2 = styled.div`
   text-align: center;
   padding: 150px;
   box-shadow: 15px 15px 15px grey;
-
 `;
 
 const animate = keyframes`
@@ -43,7 +41,7 @@ const H1 = styled.h1`
   background: linear-gradient(90deg, #000, #fff, #000);
   background-repeat: no-repeat;
   background-size: 70%;
-  animation: ${animate} 5s linear infinite;
+  animation: ${animate} 10s linear infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: rgba(255, 255, 255, 0);
 `;
@@ -65,11 +63,11 @@ export class Image extends Component {
     return (
       <React.Fragment>
         {this.state.mouseOver ? (
-          <Div1 style={{backgroundImage: `url(${image})`}}
+          <Div1
+            style={{ backgroundImage: `url(${image})` }}
             onMouseEnter={() => this.toggleImage()}
             onMouseLeave={() => this.toggleImage()}
-          >
-          </Div1>
+          ></Div1>
         ) : (
           <Div2
             onMouseEnter={() => this.toggleImage()}

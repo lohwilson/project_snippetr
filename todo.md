@@ -1,6 +1,5 @@
 todos
 
-- change css to material UI
 - create own user profile page with edit feature and add profile pic
 - clicking likes show modal of usernames that like snippet
 - check cloudinary for heroku

@@ -71,7 +71,7 @@ export class Search extends Component {
   render() {
     return (
       <Div>
-        <h1>Looking for something? Search here!</h1>
+        <h1>Oops! Our Search is not working at the moment!</h1>
         <form onSubmit={this.handleSearch}>
           <label htmlFor="search"></label>
           <input

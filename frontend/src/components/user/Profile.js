@@ -185,6 +185,7 @@ export class Profile extends Component {
                       snippet: snippet,
                       key: snippet._id,
                     }}
+                    style={styledTitleLink}
                   >
                     <span>{snippet.title}</span>
                   </Link>
@@ -254,6 +255,12 @@ const Img = styled.img`
   height: 50px;
   text-align: center;
 `;
+
+const styledTitleLink = {
+  color: "black",
+  textDecoration: "none",
+  fontWeight: "900",
+};
 
 const UserDiv = styled.div``;
 
