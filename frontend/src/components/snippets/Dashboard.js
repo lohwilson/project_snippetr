@@ -6,6 +6,10 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import { AuthContext } from "../auth/AuthProvider";
+import ImageIcon from "@material-ui/icons/Image";
+import ImageSearchIcon from "@material-ui/icons/ImageSearch";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 const Div = styled.div`
   text-align: center;
@@ -84,9 +88,17 @@ export class Dashboard extends Component {
         <Div className="container">
           <div>
             <ButtonGroup variant="contained" color="primary">
-              <Button onClick={this.listAllSnippets}>List All Snippets</Button>
-              <Button onClick={this.createSnippets}>Create Snippet</Button>
-              <Button onClick={this.search}>Search</Button>
+              <Button onClick={this.listAllSnippets}>
+                <ImageIcon /> List All Snippets
+              </Button>
+              <Button onClick={this.createSnippets}>
+                {" "}
+                <AddPhotoAlternateIcon /> Create Snippet
+              </Button>
+              <Button onClick={this.search}>
+                {" "}
+                <ImageSearchIcon /> Search
+              </Button>
             </ButtonGroup>
           </div>
           <ContentDiv>

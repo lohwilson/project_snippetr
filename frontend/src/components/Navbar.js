@@ -7,6 +7,13 @@ import Button from "@material-ui/core/Button";
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/Toolbar";
 import HomeIcon from "@material-ui/icons/Home";
+import PhotoAlbumIcon from "@material-ui/icons/PhotoAlbum";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import HowToRegIcon from "@material-ui/icons/HowToReg";
+import PersonIcon from "@material-ui/icons/Person";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import TransferWithinAStationIcon from "@material-ui/icons/TransferWithinAStation";
+import EcoIcon from "@material-ui/icons/Eco";
 
 const LeftDiv = styled.div`
   width: 35%;
@@ -49,7 +56,6 @@ export class Navbar extends Component {
             <LeftDiv>
               <div>
                 <Link to="/" style={styledTitleLink}>
-                  <HomeIcon style={homeIconStyle} />
                   Snippetr
                 </Link>
               </div>
@@ -62,12 +68,12 @@ export class Navbar extends Component {
             <RightDiv>
               <Button>
                 <Link to="/about" style={styledLink}>
-                  About
+                  <EcoIcon /> About
                 </Link>
               </Button>
               <Button>
                 <Link to="/ourteam" style={styledLink}>
-                  Our Team
+                  <EmojiPeopleIcon /> Our Team
                 </Link>
               </Button>
 
@@ -75,7 +81,7 @@ export class Navbar extends Component {
                 <React.Fragment>
                   <Button>
                     <Link to="/dashboard" style={styledLink}>
-                      Dashboard
+                      <PhotoAlbumIcon /> Dashboard
                     </Link>
                   </Button>
 
@@ -87,13 +93,13 @@ export class Navbar extends Component {
                       onClick={() => this.checkUrl()}
                       style={styledLink}
                     >
-                      {this.context.username}
+                      <PersonOutlineIcon /> {this.context.username}
                     </Link>
                   </Button>
 
                   <Button onClick={() => this.context.logOut()}>
                     <Link to="/" style={styledLink}>
-                      Logout
+                      <TransferWithinAStationIcon /> Logout
                     </Link>
                   </Button>
                 </React.Fragment>
@@ -101,12 +107,12 @@ export class Navbar extends Component {
                 <React.Fragment>
                   <Button>
                     <Link to="/login" style={styledLink}>
-                      Login
+                      <PersonIcon /> Login
                     </Link>
                   </Button>
                   <Button>
                     <Link to="/signup" style={styledLink}>
-                      Sign Up
+                      <HowToRegIcon /> Sign Up
                     </Link>
                   </Button>
                 </React.Fragment>

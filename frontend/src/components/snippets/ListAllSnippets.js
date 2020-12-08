@@ -7,66 +7,15 @@ import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
-
-const OverallDiv = styled.div`
-  margin: auto;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
-const BorderDiv = styled.div`
-  border: 0.1em solid #d3d3d3;
-  margin: 20px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  box-shadow: 5px 5px 5px grey;
-`;
-
-const Image = styled.img`
-  max-width: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: auto;
-`;
-
-const styledUserLink = {
-  color: "black",
-  textDecoration: "none",
-  textAlign: "left",
-};
-
-const UserDiv = styled.div`
-  width: 100%
-  font-size: 20px;
-  font-weight: 900;
-  margin: 20px;  
-`;
-
-const LikeDiv = styled.div`
-  width: 100%;
-  text-align: left;
-  padding: 0px 35px;
-`;
-
-const TitleDiv = styled.div`
-  width: 100%;
-  text-align: left;
-  padding: 0px 35px;
-`;
-
-const StoryDiv = styled.div`
-  width: 100%;
-  padding: 10px;
-`;
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
 
 export class ListAllSnippets extends Component {
   constructor(props) {
     super(props);
     this.state = {
       snippets: [],
+      open: false,
     };
   }
   static contextType = AuthContext;
@@ -187,6 +136,15 @@ export class ListAllSnippets extends Component {
     return true;
   };
 
+  handleOpen = () => {
+    this.setState({ open: true });
+    console.log("handling open");
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
     const { snippets } = this.state;
     const allSnippets = snippets.length ? (
@@ -222,8 +180,16 @@ export class ListAllSnippets extends Component {
                     }
                   />
                 }
-                label={likes.length}
               />
+              {likes.length}{" "}
+              <span onClick={() => this.handleOpen()}>likes</span>
+              <Modal
+                open={this.state.open}
+                onClose={() => this.handleClose()}
+                style={styledModal}
+              >
+                <div>modal </div>
+              </Modal>
             </LikeDiv>
             <TitleDiv>
               <Link
@@ -232,6 +198,7 @@ export class ListAllSnippets extends Component {
                   snippet: snippet,
                   key: _id,
                 }}
+                style={styledTitleLink}
               >
                 <span>{title}</span>
               </Link>
@@ -255,3 +222,71 @@ export class ListAllSnippets extends Component {
 }
 
 export default ListAllSnippets;
+
+const OverallDiv = styled.div`
+  margin: auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
+const BorderDiv = styled.div`
+  border: 0.1em solid #d3d3d3;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: 5px 5px 5px grey;
+`;
+
+const Image = styled.img`
+  max-width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: auto;
+`;
+
+const styledModal = {
+  position: "absolute",
+  width: "400",
+  border: "2px solid #000",
+  backgroundColor: "white",
+  left: "0",
+};
+
+const styledUserLink = {
+  color: "black",
+  textDecoration: "none",
+  textAlign: "left",
+};
+
+const UserDiv = styled.div`
+  width: 100%
+  font-size: 20px;
+  font-weight: 900;
+  margin: 20px;  
+`;
+
+const LikeDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const TitleDiv = styled.div`
+  width: 100%;
+  text-align: left;
+  padding: 0px 35px;
+`;
+
+const styledTitleLink = {
+  color: "black",
+  textDecoration: "none",
+  fontWeight: "900",
+};
+
+const StoryDiv = styled.div`
+  width: 100%;
+  padding: 10px;
+`;
