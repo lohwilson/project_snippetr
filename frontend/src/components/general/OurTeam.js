@@ -3,6 +3,12 @@ import styled from "styled-components";
 
 const Div = styled.div`
   margin: 75px 0px;
+  text-align: center;
+`;
+
+const Image = styled.img`
+  width: 400px;
+  height: 400px;
 `;
 
 export class OurTeam extends Component {
@@ -15,6 +21,10 @@ export class OurTeam extends Component {
         <h1>Our Team</h1>
         <div>
           <h2>CEO</h2>
+          <Image
+            src="https://static.toiimg.com/thumb/msid-67586673,width-800,height-600,resizemode-75,imgsize-3918697,pt-32,y_pad-40/67586673.jpg"
+            alt="catimage"
+          />
           <h4>Loh</h4>
           <p>
             Lorem ipsum, or lipsum as it is sometimes known, is dummy text used
@@ -33,6 +43,10 @@ export class OurTeam extends Component {
         </div>
         <div>
           <h2>CFO</h2>
+          <Image
+            src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/why-cats-are-best-pets-1559241235.jpg?crop=1.00xw:0.753xh;0,0.137xh&resize=1200:*"
+            alt="catimage"
+          />
           <h4>Wil</h4>
           <p>
             The purpose of lorem ipsum is to create a natural looking block of
@@ -51,6 +65,10 @@ export class OurTeam extends Component {
         </div>
         <div>
           <h2>CTO</h2>
+          <Image
+            src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/reference_guide/cats_and_excessive_meowing_ref_guide/1800x1200_cats_and_excessive_meowing_ref_guide.jpg"
+            alt="catimage"
+          />
           <h4>Son</h4>
           <p>
             The passage experienced a surge in popularity during the 1960s when

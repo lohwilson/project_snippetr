@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 const Div = styled.footer`
-  background-color: #708090;
+  background-color: #191970;
   text-align: center;
   justify-content: space-around;
   display: flex;
