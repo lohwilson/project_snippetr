@@ -8,6 +8,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import { AuthContext } from "../auth/AuthProvider";
 import styled from "styled-components";
 import Modal from "@material-ui/core/Modal";
+import UserTitle from "./UserTitle";
 
 export class ListAllSnippets extends Component {
   constructor(props) {
@@ -151,16 +152,7 @@ export class ListAllSnippets extends Component {
         const { postedBy, image, likes, _id, title, story } = snippet;
         return (
           <BorderDiv key={index}>
-            <UserDiv>
-              <Link
-                to={{
-                  pathname: "/users/" + postedBy._id,
-                }}
-                style={styledUserLink}
-              >
-                <span>{postedBy.username}</span>
-              </Link>
-            </UserDiv>
+            <UserTitle postedBy={postedBy} />
             <div>
               <Image src={image} alt="userImage" />
             </div>

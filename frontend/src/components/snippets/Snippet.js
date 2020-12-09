@@ -11,6 +11,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import styled from "styled-components";
+import UserTitle from "../snippets/UserTitle";
+import SnippetBody from "../snippets/SnippetBody";
 
 export class Snippets extends Component {
   constructor(props) {
@@ -200,40 +202,17 @@ export class Snippets extends Component {
     const { title, story, image, postedBy, likes, _id } = this.state.snippet;
     return (
       <React.Fragment>
-        {postedBy && (
-          <UserDiv>
-            <Link
-              to={{
-                pathname: "/users/" + postedBy._id,
-              }}
-              style={styledUserLink}
-            >
-              <span>{postedBy.username}</span>
-            </Link>
-          </UserDiv>
-        )}
-        <div>
-          <Image src={image} alt="userImage" />
-        </div>
-        <h1>{title}</h1>
-        <h3>{story}</h3>
-        <br />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={likes && this.checkedLike(likes)}
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite />}
-              name="likes"
-              onChange={() =>
-                this.checkedLike(likes)
-                  ? this.unLikeSnippet(_id)
-                  : this.likeSnippet(_id)
-              }
-            />
-          }
+        {postedBy && <UserTitle postedBy={postedBy} />}
+        <SnippetBody
+          image={image}
+          title={title}
+          story={story}
+          likes={likes}
+          id={_id}
+          checkedLike={this.checkedLike}
+          unLikeSnippet={this.unLikeSnippet}
+          likeSnippet={this.likeSnippet}
         />
-        {likes && <span>{likes.length} likes</span>}
         <br />
         {postedBy && postedBy._id === this.context.id && (
           <React.Fragment>
@@ -262,16 +241,7 @@ export class Snippets extends Component {
     return (
       <React.Fragment>
         <form onSubmit={this.handleUpdate}>
-          <UserDiv>
-            <Link
-              to={{
-                pathname: "/users/" + postedBy._id,
-              }}
-              style={styledUserLink}
-            >
-              <span>{postedBy.username}</span>
-            </Link>
-          </UserDiv>
+          <UserTitle postedBy={postedBy} />
           <img src={image} alt="userImage" />
           <div>
             <EditTitle>
