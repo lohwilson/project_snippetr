@@ -66,11 +66,11 @@ export class Navbar extends Component {
               </Link>
             </div>
             <RightDiv>
-              <Button>
+              {/* <Button>
                 <Link to="/about" style={styledLink}>
                   <EcoIcon /> About
                 </Link>
-              </Button>
+              </Button> */}
               <Button>
                 <Link to="/ourteam" style={styledLink}>
                   <EmojiPeopleIcon /> Our Team
